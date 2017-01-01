@@ -1,0 +1,89 @@
+.wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.navbar {
+    margin-bottom: 0px !important;
+}
+
+
+
+
+/******************************/
+/* TOPICS SIDEBAR */
+/******************************/
+.topicsSideBar {
+	width: 15%;
+    height: 100vh;
+    display: inline-block;
+}
+
+.oneTopic {
+    color: white;
+
+}
+
+
+.topicCheckboxContainer {
+    display: table-cell;
+    padding: 10px;
+}
+.js-topic-checkbox {
+
+}
+
+
+.topicButtonContainer {
+    display: table-cell;
+    width: 100%;
+    vertical-align: top;
+    height: 100%;
+}
+.js-topic-button {
+	width: 100%;
+    height: 100%;
+	border: none;
+	font-size: 16px;
+	outline: none;
+	background-color: transparent;
+}
+
+
+.addTopLevelTopicButton {
+    background-color: transparent !important;
+    border: none !important;
+    outline: none !important;
+}
+.addTopLevelTopicButton:active {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+
+
+
+
+
+
+/******************************/
+/* Add research content area */
+/******************************/
+.addResearchContainer {
+    display: inline-block;
+    vertical-align: top;
+    padding: 20px;
+    width: 80%;
+}
+
+
+/******************************/
+/* View research content area */
+/******************************/
+.viewResearchContainer {
+    display: inline-block;
+    vertical-align: top;
+    padding: 20px;
+    width: 80%;
+}

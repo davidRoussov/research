@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <title>research</title>
+
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-route.min.js"></script>
+
+
+    <script src="js/main.js"></script>
+    <script src="js/topics.js"></script>
+    <script src="js/add.js"></script>
+
+
+    <link rel='stylesheet' href='/css/style.css' />
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' />
+
+
+  </head>
+
+  <body ng-app="app">
+
+
+    <div class="wrapper">
+
+    <!--menu bar at the top for navigation-->
+      <div ng-include src="'views/nav.html'"></div>
+
+    <!--The side bar on the left that displays topic/subtopics along with checkboxes-->
+      <div class="topicsSideBar" ng-include src="'views/topics.html'"></div>
+
+    <!--this is where the input fields will be, the view/analysis section, recommendations and notes-->
+      <ng-view></ng-view>
+
+    </div>
+
+
+  </body>
+
+</html>

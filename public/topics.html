@@ -1,0 +1,24 @@
+<div ng-controller="topicsController">
+
+    <div ng-repeat="topic in topics" ng-if="topic.visible" id="{{topic._id}}" class="oneTopic" style="{{topic.style}}">
+
+    		<div class="topicCheckboxContainer">
+    		    <input type="checkbox" class="js-topic-checkbox" ng-click="topicChecked($event)">
+    		</div>
+
+    		<div class="topicButtonContainer">
+    		    <button type="button" class="js-topic-button" ng-click="expandOrCollapseTopic($event)">{{topic.topicName}}</button>
+    		</div>
+
+    </div>
+
+
+    <div class="addTopLevelTopicContainer">
+
+      <button type="button" class="btn btn-default addTopLevelTopicButton" aria-label="Left Align" ng-click="addTopLevelResearch($event)">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      </button>
+
+    </div>
+
+</div>
