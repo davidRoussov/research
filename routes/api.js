@@ -29,6 +29,21 @@ router.route("/topics")
 
 			return response.json({success: true});
 		}
+		else if (data.action === "createNewSubtopic") {
+			var parentID = request.body.parentID;
+			var topicName = request.body.topicName;
+
+			createNewSubtopic(parentID, topicName);
+
+			return response.json({success: true});
+		}
+		else if (data.action === "updateTopics") {
+			var newTopics = request.body.topics;
+
+			updateTopics(newTopics);
+
+			return response.json({success: true});
+		}
 		else {
 			console.log("action: " + data.action);
 
@@ -37,19 +52,124 @@ router.route("/topics")
 
 	});
 
+//getting a topic and all its data by its topicID
+router.route("/topics/:id")
+
+	.post(function(request, response) {
+		var data = request.body;
+
+		if (data.action === "updateTopicTitle") {
+			var topicID = request.params.id;
+			var newTitle = data.newTitle;
+
+			updateTopicTitle(topicID, newTitle);
+
+			return response.json({success: true});
+		} else {
+			console.log("action: " + data.action);
+			return response.json({success: false});
+		}
+
+	})
+
+
 module.exports = router;
+
+function updateTopics(topics) {
+	var newDoc = {topics: topics};
+
+	Research.findOneAndUpdate({}, newDoc, function(err, doc) {
+		if (err) console.log(err);
+	});
+}
+
+function createNewSubtopic(parentID, topicName) {
+
+	Research.findOne({}, function(err, data) {
+
+		var topics = data.topics;
+
+		var newHeight = getTopicHeight(topics, parentID) + 1;
+
+		var newRank = getHighestRank(topics, newHeight, parentID) + 1;
+
+		var json = {
+			topicName: topicName,
+			parentID: parentID,
+			rank: newRank,
+			height: newHeight,
+			research: []
+		}
+
+		topics.push(json);
+
+		var newDoc = {topics: topics};
+
+
+		
+	});
+}
+
+function getHighestRank(topics, height, parentID) {
+	var highestRank = -Infinity;
+	for (var i = 0; i < topics.length; i++) {
+		if (topics[i].parentID == parentID) {
+			if (topics[i].rank > highestRank) {
+				highestRank = topics[i].rank;
+			}
+		}
+	}
+
+	if (highestRank == -Infinity) highestRank = 0;
+
+	return highestRank;
+}
+
+function getTopicHeight(topics, id) {
+	for (var i = 0; i < topics.length; i++) {
+		if (topics[i]._id == id) {
+			return topics[i].height;
+		}
+	}	
+}
+
+function updateTopicTitle(topicID, newTitle) {
+
+	Research.findOne({}, function(err, data) {
+
+		if (err) {
+			console.log("error: could not update topic title");
+			return;
+		}
+
+		var topics = data.topics;
+		for (var i = 0; i < topics.length; i++) {
+			if (topics[i]._id == topicID) {
+				topics[i].topicName = newTitle;
+			}
+		}
+
+		data.topics = topics;
+
+		Research.findOneAndUpdate({}, data, function(err, doc) {
+			if (err) console.log(err);
+		});
+
+	});
+}
 
 function createTopLevelTopic() {
 
 	Research.findOne({}, function(err, data) {
 
 		if (err) {
-			console.log("hi");
+			console.log("error: could not create top level topic");
 			return;
 		}
 		
 		// checking if user has any topics in db initially
 		var topics;
+		console.log(data);
 		if (data) {
 			topics = data.topics;
 
@@ -63,6 +183,7 @@ function createTopLevelTopic() {
 				}
 			}
 		} else {
+			console.log("erg");
 			topics = [];
 
 			// no topics, no ranks, set initial rank arbitrarily to 0
@@ -74,7 +195,8 @@ function createTopLevelTopic() {
 			topicName: "[placeholder topic name]",
 			parentID: null,
 			rank: highestRank + 1,
-			height: 1
+			height: 1,
+			research: []
 		}
 
 		topics.push(json);

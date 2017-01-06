@@ -1,5 +1,80 @@
 <div class="viewResearchContainer">
 
+	<div class="single-topic-view" ng-repeat="topic in topics" id={{topic._id}} ng-if="topic.viewModeVisible">
+
+		<input type="text" class="view-topic-title" ng-model="topic.topicName" ng-blur="editTopicTitle($event)">
+
+		<!-- add subtopic -->
+
+		<button type="button" class="btn btn-default topic-menu-button" data-toggle="modal" data-target="#modalAddSubtopic{{$index}}">
+		  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+		  Add subtopic
+		</button>
+
+		  <!-- Modal for when user clicks add subtopic and they type new topic-->
+		  <div class="modal fade" id="modalAddSubtopic{{$index}}" role="dialog">
+		    <div class="modal-dialog">
+		    
+		      <!-- Modal content-->
+		      <div class="modal-content">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal">&times;</button>
+		          <h4 class="modal-title">Add a new subtopic for {{topic.topicName}}</h4>
+		        </div>
+		        <div class="modal-body">
+		       		<input type="text" class="form-control">
+		        </div>
+		        <div class="modal-footer">
+		          <button type="button" class="btn btn-primary" ng-click="createNewSubtopic($event)">Submit</button>
+		          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        </div>
+		      </div>
+		      
+		    </div>
+		  </div>
+
+		<!-- end add subtopic -->
+
+		<!-- delete topic -->
+
+		<button type="button" class="btn btn-default topic-menu-button" data-toggle="modal" data-target="#modalDeleteTopic{{$index}}">
+		  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+		  Delete topic
+		</button>
+
+		  <!-- Modal for when user clicks add subtopic and they type new topic-->
+		  <div class="modal fade" id="modalDeleteTopic{{$index}}" role="dialog">
+		    <div class="modal-dialog">
+		    
+		      <!-- Modal content-->
+		      <div class="modal-content">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal">&times;</button>
+		          <h4 class="modal-title">Type <span style="color: red">{{topic.topicName}}</span> to delete this topic</h4>
+		        </div>
+		        <div class="modal-body">
+		       		<input type="text" class="form-control" ng-model="userWritesTopic" ng-change="checkUserWriteTopicDelete(topic, userWritesTopic)">
+		       		<p>Warning: this will also delete all subtopics</p>
+		        </div>
+		        <div class="modal-footer">
+		          <button type="button" class="btn btn-danger" ng-click="deleteTopic(topic)" disabled>Delete</button>
+		          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        </div>
+		      </div>
+		      
+		    </div>
+		  </div>
+
+		<!-- end delete topic -->
+
+
+
+
+
+
+
+	</div>
+
 
 
 </div>
