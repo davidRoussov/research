@@ -3,24 +3,6 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 	$(".active").removeClass("active"); // removing top bar menu navigation highlighting
 	$("a[href='/#!/view']").parent().addClass("active"); // making view menu button highlighted
 
-	// user clicks topic checkbox, topics.js goes to here, to get the topic and show it on screen
-	$rootScope.$on("viewTopic", function(event, topicID, checked) {
-
-		for (var i = 0; i < $rootScope.topics.length; i++) {
-			if ($rootScope.topics[i]._id == topicID) {
-				if ($rootScope.topics[i].viewModeVisible) {
-					$rootScope.topics[i].viewModeVisible = false;
-				} else {
-					$rootScope.topics[i].viewModeVisible = true;
-				}
-				break;
-			}
-		}
-
-
-	});
-
-
 
 	$scope.editTopicTitle = function(event) {
 		var input = $(event.target);
@@ -31,14 +13,28 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 	};
 
 
-	$scope.createNewSubtopic = function(event) {
-
-		var button = $(event.target);
-		var newTopic = button.parent().prev().children().first().val();
-		var parentID = button.parent().parent().parent().parent().parent().attr("id");
+	$scope.createNewSubtopic = function(topic, newTopic) {
+		
+		var parentID = topic._id;
 
 		$http.post('/api/topics', {action: "createNewSubtopic", parentID: parentID, topicName: newTopic}).then(function(response) {
 	    	$('.modal').modal('hide');
+	    	$('.modal-backdrop').remove();
+
+
+	    	// this code determines if the subtopics are already visible and if they are the new subtopic
+	    	// will be set visible too before topics.js is called with the newtopic so that it updates the LHS
+	 		var newtopic = response.data.newtopic;
+	 		for (var i = 0; i < $rootScope.topics.length; i++) {
+	 			if ($rootScope.topics[i].parentID == newtopic.parentID) {
+	 				if ($rootScope.topics[i].visible) {
+	 					newtopic.visible = true;
+	 					break;
+	 				}
+	 			}
+	 		}
+	 		$rootScope.$emit("showTopicsAfterNewSubtopic", {newtopic: newtopic});
+
 	    });
 
 	};
@@ -59,15 +55,31 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 		$('.modal').modal('hide');
 		$('.modal-backdrop').remove();
 
-		// while async server deletes, we delete it clientside, then call topics.js to refresh LHS
 		var topicID = topic._id;
-		for (var i = 0; i < $rootScope.topics.length; i++) {
-			if ($rootScope.topics[i]._id == topicID) {
-				$rootScope.topics.splice(i,1);
-			}
-		}
+		var temptopics = $rootScope.topics.slice();
+		deleteTopic(temptopics, topicID);
 
 		$http.post("/api/topics", {action: "updateTopics", topics: $rootScope.topics});
+	}
+
+
+	function deleteTopic(temptopics, topicID) {
+
+		for (var i = 0; i < $rootScope.topics.length; i++) {
+			if ($rootScope.topics[i]._id == topicID) {
+				temptopics[i] = null;
+			}
+			else if ($rootScope.topics[i].parentID == topicID) {
+				deleteTopic(temptopics, $rootScope.topics[i]._id);
+			}
+		}
+		
+		$rootScope.topics = [];
+		for (var i = 0; i < temptopics.length; i++) {
+			if (temptopics[i])
+				$rootScope.topics.push(temptopics[i]);
+		}
+
 	}
 
 });

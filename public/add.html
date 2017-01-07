@@ -5,32 +5,32 @@
 
 	  <div class="form-group">
 	    <label for="inputLink">Link</label>
-	    <input type="text" class="form-control" id="inputLink" placeholder="Enter link">
+	    <input type="text" class="form-control" id="inputLink" placeholder="Enter link"  ng-model="userWritesLink">
 	  </div>
 
 	  <div class="form-group">
 	    <label for="inputTitle">Title</label>
-	    <input type="text" class="form-control" id="inputTitle" placeholder="Enter title">
+	    <input type="text" class="form-control" id="inputTitle" placeholder="Enter title"  ng-model="userWritesTitle">
 	  </div>
 
 	  <div class="form-group">
 	    <label for="inputDate">Date</label>
-	    <input type="text" class="form-control" id="inputDate" placeholder="Enter date">
+	    <input type="text" class="form-control" id="inputDate" placeholder="Enter date"  ng-model="userWritesDate">
 	  </div>
 
 	  <div class="form-group">
 	    <label for="inputSource">Source</label>
-	    <input type="text" class="form-control" id="inputSource" placeholder="Enter source">
+	    <input type="text" class="form-control" id="inputSource" placeholder="Enter source" ng-model="userWritesSource">
 	  </div>
 
 
 	  <div class="form-group">
 	    <label for="inputSummary">Summary</label>
-	    <textarea class="form-control" id="inputSummary" rows="3"></textarea>
+	    <textarea class="form-control" id="inputSummary" rows="3" ng-model="userWritesSummary"></textarea>
 	  </div>
 
 
-	  <button type="submit" class="btn btn-primary">Submit</button>
+	  <button type="submit" class="btn btn-primary" ng-click="submitNewResearch(userWritesLink, userWritesTitle, userWritesDate, userWritesSource, userWritesSummary)">Submit</button>
 
 	</form>
 

@@ -1,24 +1,48 @@
-<div ng-controller="topicsController">
+<div>
 
     <div ng-repeat="topic in topics" ng-if="topic.visible" id="{{topic._id}}" class="oneTopic" style="{{topic.style}}">
 
-		<div class="topicCheckboxContainer">
-		    <input type="checkbox" class="js-topic-checkbox" ng-click="topicChecked($event)">
-		</div>
+  		<div class="topicCheckboxContainer">
+  		    <input type="checkbox" class="js-topic-checkbox" ng-click="topicChecked($event)">
+  		</div>
 
-		<div class="topicButtonContainer">
-		    <button type="button" class="js-topic-button" ng-click="expandOrCollapseTopic($event)" ng-bind="topic.topicName"></button>
-		</div>
+  		<div class="topicButtonContainer">
+  		    <button type="button" class="js-topic-button" ng-click="expandOrCollapseTopic($event)" ng-bind="topic.topicName"></button>
+  		</div>
 
     </div>
 
 
     <div class="addTopLevelTopicContainer">
 
-      <button type="button" class="btn btn-default addTopLevelTopicButton" aria-label="Left Align" ng-click="addTopLevelResearch($event)">
+      <button type="button" class="btn btn-default addTopLevelTopicButton" aria-label="Left Align" data-toggle="modal" data-target="#modalAddTopLevelTopic">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
       </button>
 
     </div>
+
+      <!-- Modal for when user clicks plus button at the end of topics list-->
+      <div class="modal fade" id="modalAddTopLevelTopic" role="dialog">
+        <div class="modal-dialog">
+        
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Add a new top level topic</h4>
+            </div>
+            <div class="modal-body">
+              <input type="text" class="form-control">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" ng-click="addTopLevelResearch($event)">Submit</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+      <!-- END MODAL -->
 
 </div>

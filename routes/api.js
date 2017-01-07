@@ -2,6 +2,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 var router = express.Router();
 var Research = mongoose.model('Research');
+var ObjectID = require('mongodb').ObjectID;
 
 router.route("/topics")
 	.get(function(request, response) {
@@ -25,17 +26,21 @@ router.route("/topics")
 		var data = request.body;
 
 		if (data.action === "createTopLevelTopic") {
-			createTopLevelTopic();
+			var topicName = data.topicName;
+
+			createTopLevelTopic(topicName);
 
 			return response.json({success: true});
 		}
 		else if (data.action === "createNewSubtopic") {
 			var parentID = request.body.parentID;
-			var topicName = request.body.topicName;
+			var topicName = request.body.topicName;	
 
-			createNewSubtopic(parentID, topicName);
+			createNewSubtopic(parentID, topicName, function(newtopic) {
+				return response.json({newtopic: newtopic});
+			});
 
-			return response.json({success: true});
+			//return response.json({success: true});
 		}
 		else if (data.action === "updateTopics") {
 			var newTopics = request.body.topics;
@@ -73,7 +78,42 @@ router.route("/topics/:id")
 	})
 
 
+router.route("/research")
+	.post(function(request, response) {
+		var data = request.body;
+
+		if (data.action === "insertNewResearch") {
+			insertNewResearch(data.document);
+
+			return response.json({success: true});
+
+		} else {
+			console.log("action: " + data.action);
+			return response.json({success: false});
+		}
+	})
+
+
 module.exports = router;
+
+function insertNewResearch(document) {
+
+	Research.findOne({}, function(err, data) {
+
+		var research = data.research;
+		console.log(document.topicIDs);
+
+		research.push(document);
+
+		var newDoc = {research: research};
+
+		Research.findOneAndUpdate({}, newDoc, function(err, doc) {
+			if (err) console.log(err);
+		});
+
+	});
+
+}
 
 function updateTopics(topics) {
 	var newDoc = {topics: topics};
@@ -83,7 +123,7 @@ function updateTopics(topics) {
 	});
 }
 
-function createNewSubtopic(parentID, topicName) {
+function createNewSubtopic(parentID, topicName, callback) {
 
 	Research.findOne({}, function(err, data) {
 
@@ -91,26 +131,32 @@ function createNewSubtopic(parentID, topicName) {
 
 		var newHeight = getTopicHeight(topics, parentID) + 1;
 
-		var newRank = getHighestRank(topics, newHeight, parentID) + 1;
+		var newRank = getHighestRank(topics, parentID) + 1;
+
+		var objectid = new ObjectID();
 
 		var json = {
+			_id: objectid,
 			topicName: topicName,
 			parentID: parentID,
 			rank: newRank,
-			height: newHeight,
-			research: []
+			height: newHeight
 		}
 
 		topics.push(json);
 
+		callback(json);
+
 		var newDoc = {topics: topics};
 
+		Research.findOneAndUpdate({}, newDoc, {upsert: true}, function(err, doc) {
+			if (err) console.log(err);
+		});
 
-		
 	});
 }
 
-function getHighestRank(topics, height, parentID) {
+function getHighestRank(topics, parentID) {
 	var highestRank = -Infinity;
 	for (var i = 0; i < topics.length; i++) {
 		if (topics[i].parentID == parentID) {
@@ -158,7 +204,7 @@ function updateTopicTitle(topicID, newTitle) {
 	});
 }
 
-function createTopLevelTopic() {
+function createTopLevelTopic(topicName) {
 
 	Research.findOne({}, function(err, data) {
 
@@ -169,34 +215,21 @@ function createTopLevelTopic() {
 		
 		// checking if user has any topics in db initially
 		var topics;
-		console.log(data);
 		if (data) {
 			topics = data.topics;
 
-			// getting highest ranked top level topic
-			var highestRank = -Infinity;
-			for (var i = 0; i < topics.length; i++) {
-				if (topics[i].parentID == null) {
-					if (topics[i].rank > highestRank) {
-						highestRank = topics[i].rank;
-					}
-				}
-			}
 		} else {
-			console.log("erg");
 			topics = [];
-
-			// no topics, no ranks, set initial rank arbitrarily to 0
-			highestRank = 0;
 		}	
+
+		var newRank = getHighestRank(topics, null) + 1;
 
 
 		var json = {
-			topicName: "[placeholder topic name]",
+			topicName: topicName,
 			parentID: null,
-			rank: highestRank + 1,
-			height: 1,
-			research: []
+			rank: newRank,
+			height: 1
 		}
 
 		topics.push(json);

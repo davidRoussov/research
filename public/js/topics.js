@@ -1,3 +1,5 @@
+
+
 app.controller('topicsController', function($scope, $http, $rootScope) {
 	var self = this;
 
@@ -8,14 +10,25 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 	var topicBorderColorSequence = ["#CC0000"];
 
 
-	// 	MAIN FUNCTIONS THAT PROCURE AND DISPLAY/STYLE THE TOPICS ON LHS
+	$rootScope.$on("showTopicsAfterNewSubtopic", function(event, data) {
+
+		var topics = $rootScope.topics;
+		var newtopic = data.newtopic;
+		topics.push(newtopic);
+		generateTopics(topics);
+
+	});
+
+
 	self.showTopics = function() {
 
 		$http.get("/api/topics").then(function(response) {
 
 			if (response.notopics) return;
 
-			else generateTopics(response.data);
+			else {
+				generateTopics(response.data);
+			}
 
 		});
 
@@ -33,7 +46,10 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 	self.showTopics();
 
-	// self.showTopics is called to initialize the topics from database
+
+
+	////////////////////////////////////////////////
+
 
 
 
@@ -46,15 +62,6 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 			if (sortedTopics[i].parentID === topicID) {
 				if (sortedTopics[i].visible != true) {
 					sortedTopics[i].visible = true;
-
-					// // looping through topics and finding the add new topic buttons
-					// // and making them visible
-					// for (var j = 0; j < sortedTopics.length; j++) {
-					// 	if (sortedTopics[j].addButtonParentID === topicID) {
-					// 		sortedTopics[j].visible = true;
-					// 	}
-					// }
-
 				} else {
 					recurseHideShow(topicID);
 					break;
@@ -68,17 +75,36 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 	$scope.addTopLevelResearch = function(event) {
 
-	    $http.post('/api/topics', {action: "createTopLevelTopic"}).then(function(response) {
+		var button = $(event.target);
+		var topicName = button.parent().prev().children().first().val();
+
+	    $http.post('/api/topics', {action: "createTopLevelTopic", topicName: topicName}).then(function(response) {
 	    	self.showTopics();
+	    	$('.modal').modal('hide');
 	    });
 	    
 	}
 
 	$scope.topicChecked = function(event) {
+
+		// FOR VIEW MODE, IF TOPIC IS CHECKED, ROOTSCOPE PROPERTY IS CHANGED TO VISIBLE/NOT VISIBLE
 		var checkbox = $(event.target);
 		var topicID = checkbox.parent().parent().attr("id");
 		var checked = checkbox.is(":checked");
-		$rootScope.$emit('viewTopic', topicID, checked);
+
+		for (var i = 0; i < $rootScope.topics.length; i++) {
+			if ($rootScope.topics[i]._id == topicID) {
+				if ($rootScope.topics[i].viewModeVisible) {
+					$rootScope.topics[i].viewModeVisible = false;
+				} else {
+					$rootScope.topics[i].viewModeVisible = true;
+				}
+				break;
+			}
+		}
+
+		
+
 	}
 
 
@@ -152,15 +178,8 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 	function initializeTopicVisibility() {
 		for (var i = 0; i < sortedTopics.length; i++) {
-			if (sortedTopics[i].parentID === null) {
+			if (sortedTopics[i].parentID === null || sortedTopics[i].visible) {
 				sortedTopics[i].visible = true;
-
-				for (var j = 0; j < sortedTopics.length; j++) {
-					if (sortedTopics[j].addButtonParentID === sortedTopics[i]._id) {
-						sortedTopics[j].visible = true;
-					}
-				}
-
 			} else {
 				sortedTopics[i].visible = false;
 			}

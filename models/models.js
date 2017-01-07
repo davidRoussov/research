@@ -14,7 +14,8 @@ var documentSchema = new mongoose.Schema({
 	title: {type: String},
 	date: {type: String},
 	source: {type: String},
-	summary: {type: String}
+	summary: {type: String},
+	submissiontime: {type: Date}
 });
 
 var researchSchema = new mongoose.Schema({
