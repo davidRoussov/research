@@ -72,7 +72,7 @@
 
 		<div class="viewModeResearchArea">
 
-			<table class="table table-bordered" contenteditable ng-model="tableChange" ng-change="viewResearchChange($event, tableChange)">
+			<table class="table table-bordered">
 
 				<thead>
 					<tr>
@@ -85,12 +85,12 @@
 				</thead>
 				<tbody>
 
-					<tr ng-repeat="research in topic.researches">
-						<td>{{research.link}}</td>
-						<td>{{research.title}}</td>
-						<td>{{research.date}}</td>
-						<td>{{research.source}}</td>
-						<td>{{research.summary}}</td>
+					<tr ng-repeat="research in topic.researches" id={{research._id}}>
+						<td class="view-research-link" contenteditable ng-model="research.link" ng-blur="editResearch($event)"></td>
+						<td class="view-research-title" contenteditable ng-model="research.title" ng-blur="editResearch($event)"></td>
+						<td class="view-research-date" contenteditable ng-model="research.date" ng-blur="editResearch($event)"></td>
+						<td class="view-research-source" contenteditable ng-model="research.source" ng-blur="editResearch($event)"></td>
+						<td class="view-research-summary" contenteditable ng-model="research.summary" ng-blur="editResearch($event)"></td>																	
 					</tr>
 
 

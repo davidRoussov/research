@@ -87,6 +87,13 @@ router.route("/research")
 
 			return response.json({success: true});
 
+		} else if (data.action === "updateResearch") {
+			var researchID = data.researchID;
+			var contents = data.contents;
+			var field = data.field;
+			updateResearch(researchID, field, contents, function() {
+				response.json({success: true});
+			});
 		} else {
 			console.log("action: " + data.action);
 			return response.json({success: false});
@@ -104,6 +111,44 @@ router.route("/research/:topicID")
 
 
 module.exports = router;
+
+function updateResearch(researchID, field, contents, callback) {
+
+	Research.findOne({}, function(err, data) {
+
+		var allResearch = data.research;
+
+		for (var i = 0; i < allResearch.length; i++) {
+			if (allResearch[i]._id == researchID) {
+
+				if (field.indexOf("view-research-link") !== -1) {
+					allResearch[i].link = contents;
+				} else if (field.indexOf("view-research-title") !== -1) {
+					allResearch[i].title = contents;
+				} else if (field.indexOf("view-research-date") !== -1) {
+					allResearch[i].date = contents;
+				} else if (field.indexOf("view-research-source") !== -1) {
+					allResearch[i].source = contents;
+				} else if (field.indexOf("view-research-summary") !== -1) {
+					allResearch[i].summary = contents;
+				} else {
+					console.log("error: invalid field name to modify in research: " + field);
+				}
+
+				break;																						
+			}
+		}
+
+		var newDoc = {research: allResearch};
+
+		Research.findOneAndUpdate({}, newDoc, function(err, doc) {
+			if (err) console.log(err);
+		});
+
+	});
+
+
+}
 
 function getResearch(topicID, callback) {
 

@@ -62,6 +62,18 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 		$http.post("/api/topics", {action: "updateTopics", topics: $rootScope.topics});
 	}
 
+	$scope.editResearch = function(event) {
+		var td = $(event.target);
+		var contents = td.html();
+		var researchID = td.parent().attr("id");
+		var field = td.attr("class");
+		console.log(field);
+
+		$http.post("/api/research", {action: "updateResearch", field: field, researchID: researchID, contents: contents}).then(function(response) {
+			console.log(response.data);
+		});
+	}
+
 
 	function deleteTopic(temptopics, topicID) {
 
@@ -82,9 +94,6 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 
 	}
 
-	function viewResearchChange(event, asd) {
-		console.log(event);
-	}
 
 });
 
