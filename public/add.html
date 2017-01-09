@@ -26,11 +26,24 @@
 
 	  <div class="form-group">
 	    <label for="inputSummary">Summary</label>
-	    <textarea class="form-control" id="inputSummary" rows="3" ng-model="userWritesSummary"></textarea>
+	    <textarea class="form-control" id="inputSummary" rows="3" placeholder="Enter summary" ng-model="userWritesSummary"></textarea>
 	  </div>
 
+	  <div class="alert alert-success" ng-if="showSuccessAlert">
+	  	<button type="button" class="close" data-dismiss="alert" aria-label="close" ng-click="closeSuccessAlert()">×</button>
+	  	<strong>Successfully added!</strong>
+	  </div>
+
+	  <div class="alert alert-danger" ng-if="showFailureAlert">
+	  	<button type="button" class="close" data-dismiss="alert" aria-label="close" ng-click="closeFailureAlert()">×</button>
+	  	<strong>No topics were selected!</strong>
+	  </div>
 
 	  <button type="submit" class="btn btn-primary" ng-click="submitNewResearch(userWritesLink, userWritesTitle, userWritesDate, userWritesSource, userWritesSummary)">Submit</button>
+
+	  <button type="button" class="btn btn-default" ng-click="clearAddResearchForm()" style="float: right">Clear form</button>
+
+
 
 	</form>
 

@@ -7,6 +7,10 @@
     margin-bottom: 0px !important;
 }
 
+.btn {
+    outline: none !important;
+}
+
 
 
 
@@ -84,19 +88,18 @@
 .viewResearchContainer {
     display: inline-block;
     vertical-align: top;
-    padding: 20px;
-    width: 80%;
+    padding-left: 20px;
+    width: 84%;
 }
 
 .single-topic-view {
-    border: 1px solid black;
     padding: 5px;
 }
 
 .view-topic-title {
     background-color: Transparent;
     border: none;
-    font-size: 20px;
+    font-size: 22px;
     width: 100%;
     outline: none;   
 }

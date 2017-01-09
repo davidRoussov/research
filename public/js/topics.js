@@ -98,6 +98,32 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 					$rootScope.topics[i].viewModeVisible = false;
 				} else {
 					$rootScope.topics[i].viewModeVisible = true;
+
+
+
+
+
+
+					var topicID = $rootScope.topics[i]._id;
+
+
+
+				    $http.get('/api/research/' + topicID).then(function(response) {
+
+
+				    	$rootScope.topics[i].researches = response.data.research;
+
+				    });
+
+
+
+
+
+
+
+
+
+
 				}
 				break;
 			}

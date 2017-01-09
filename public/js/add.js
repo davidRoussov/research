@@ -1,5 +1,5 @@
 
-app.controller("addResearchController", function($scope, $http) {
+app.controller("addResearchController", function($scope, $http, $timeout) {
 
 	$(".active").removeClass("active"); // removing top bar menu navigation highlighting
 	$("a[href='/']").parent().addClass("active"); // making add menu button highlighted
@@ -16,7 +16,8 @@ app.controller("addResearchController", function($scope, $http) {
 		});
 
 		if (topicIDs.length === 0) {
-			console.log("NO TOPICS WERE SELECTED!");
+			console.log($scope.showFailureAlert);
+			$scope.showFailureAlert = true;
 			return;
 		}
 
@@ -35,8 +36,22 @@ app.controller("addResearchController", function($scope, $http) {
 		}
 
 		$http.post('/api/research', json).then(function(response) {
-			console.log(response.data);
+
+			$scope.showSuccessAlert = true;
+
+
 		});
 	}
+
+	$scope.clearAddResearchForm = function() {
+		$("#inputLink").val('');
+		$("#inputTitle").val('');
+		$("#inputDate").val('');
+		$("#inputSource").val('');
+		$("#inputSummary").val('');
+	}
+
+	$scope.closeSuccessAlert = function() { $scope.showSuccessAlert = false; }
+	$scope.closeFailureAlert = function() { $scope.showFailureAlert = false; }
 
 });

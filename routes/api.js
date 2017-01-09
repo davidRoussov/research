@@ -93,15 +93,44 @@ router.route("/research")
 		}
 	})
 
+router.route("/research/:topicID")
+	.get(function(request, response) {
+		var topicID = request.params.topicID;
+
+		getResearch(topicID, function(research) {
+			response.send({research: research});
+		});
+	})
+
 
 module.exports = router;
+
+function getResearch(topicID, callback) {
+
+	Research.findOne({}, function(err, data) {
+
+		var allResearch = data.research;
+
+		var research = [];
+		for (var i = 0; i < allResearch.length; i++) {
+			var topicIDs = allResearch[i].topicIDs;
+			for (var j = 0; j < topicIDs.length; j++) {
+				if (topicIDs[j] == topicID) {
+					research.push(allResearch[i]);
+				}
+			}
+		}
+
+		callback(research);
+
+	});
+}
 
 function insertNewResearch(document) {
 
 	Research.findOne({}, function(err, data) {
 
 		var research = data.research;
-		console.log(document.topicIDs);
 
 		research.push(document);
 

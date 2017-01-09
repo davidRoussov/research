@@ -82,5 +82,9 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 
 	}
 
+	function viewResearchChange(event, asd) {
+		console.log(event);
+	}
+
 });
 
