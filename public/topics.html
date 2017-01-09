@@ -1,6 +1,10 @@
 <div>
 
-    <div ng-repeat="topic in topics" ng-if="topic.visible" id="{{topic._id}}" class="oneTopic" style="{{topic.style}}">
+<!--     <div class="rs-sidebar-brand-container"> -->
+      <a href="/" class="rs-sidebar-brand">Research</a>
+<!--     </div>
+ -->
+    <div ng-repeat="topic in topics" ng-if="topic.visible" id="{{topic._id}}" class="oneTopic topic-level-{{topic.height % 4}}" style="{{topic.style}}">
 
   		<div class="topicCheckboxContainer">
   		    <input type="checkbox" class="js-topic-checkbox" ng-click="topicChecked($event)">

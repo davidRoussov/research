@@ -5,22 +5,76 @@
 
 .navbar {
     margin-bottom: 0px !important;
+    border-radius: 0px !important;
 }
 
 .btn {
     outline: none !important;
 }
 
+.nav-and-content-container {
+    overflow: hidden;
+}
+
+.container-fluid .navbar-collapse {
+    padding: 0px !important; /*removing left padding the exists by default in the navbar*/
+}
+
+
+/******************************/
+/* Topic level color sequence (FOUR) */
+/******************************/
+.topic-level-1 {
+    background-color: #5C6BC0;
+}
+.topic-level-1:hover {
+    background-color: #7D89CD;
+}
+.topic-level-2 {
+    background-color: #8C8CFF;
+}
+.topic-level-2:hover {
+    background-color: #7D89CD;
+}
+.topic-level-3 {
+    background-color: #73C78F;
+}
+.topic-level-3:hover {
+    background-color: #7D89CD;
+}
+.topic-level-0 {
+    background-color: #A366A3;
+}
+.topic-level-0:hover {
+    background-color: #7D89CD;
+}
 
 
 
 /******************************/
 /* TOPICS SIDEBAR */
 /******************************/
+.rs-sidebar-brand {
+    display: block;
+    text-align: center;
+    width: 100%;
+    min-height: 51px;
+    line-height: 51px;
+    color: white;
+    border-bottom: 1px solid rgba(0,0,0,.15);
+    background-color: rgba(0,0,0,.12);
+    font-size: 24px;
+}
+.rs-sidebar-brand:hover {
+    text-decoration: none;
+    color: white;
+}
+
 .topicsSideBar {
 	width: 15%;
     height: 100vh;
-    display: inline-block;
+    float: left;
+    background-color: #5C6BC0;
 }
 
 .oneTopic {
@@ -75,10 +129,8 @@
 /* Add research content area */
 /******************************/
 .addResearchContainer {
-    display: inline-block;
-    vertical-align: top;
+    overflow: hidden;
     padding: 20px;
-    width: 80%;
 }
 
 
@@ -86,10 +138,8 @@
 /* View research content area */
 /******************************/
 .viewResearchContainer {
-    display: inline-block;
-    vertical-align: top;
+    overflow: hidden;
     padding-left: 20px;
-    width: 84%;
 }
 
 .single-topic-view {

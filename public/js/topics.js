@@ -5,7 +5,10 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 	var sortedTopics; // consider figuring out how to get rid of this global variable
 
-	var topicColorSequence = ["#FF9999", "#8C8CFF", "#73C78F", "#A366A3", "#855C33"];
+	var topicColorSequence = ["#5C6BC0", "#8C8CFF", "#73C78F", "#A366A3", "#855C33"];
+	var topicHoverColorSequence = ["#7D89CD"];
+
+
 	var topicGradientSequence = [["#DB4C4C", "#D42626"],["#2626A8", "#0D0D9E"],["#267D26","#0D6E0D"],["#7D267D", "#6E0D6E"],["#7D5226", "#6E3D0Ds"]];
 	var topicBorderColorSequence = ["#CC0000"];
 
@@ -37,7 +40,7 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 	function generateTopics(topics) {
 		sortTopics(topics);
 
-		addTopicStyle();
+		// addTopicStyle();
 
 		initializeTopicVisibility();
 
@@ -212,27 +215,27 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 		}
 	}
 
-	function addTopicStyle() {
+	// function addTopicStyle() {
 
-		for (var i = 0; i < sortedTopics.length; i++) {
+	// 	for (var i = 0; i < sortedTopics.length; i++) {
 			
 			
 
-			if (sortedTopics[i].addButtonParentID) {
-				var topicHeight = sortedTopics[i].height;
-			} else {
-				var topicHeight = sortedTopics[i].height - 1;
-			}
-			var colorIndex = topicHeight % topicColorSequence.length;
+	// 		if (sortedTopics[i].addButtonParentID) {
+	// 			var topicHeight = sortedTopics[i].height;
+	// 		} else {
+	// 			var topicHeight = sortedTopics[i].height - 1;
+	// 		}
+	// 		var colorIndex = topicHeight % topicColorSequence.length;
 
-			sortedTopics[i].style = 
-				"background-color: " + topicColorSequence[colorIndex];
-				// "background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, " + topicGradientSequence[colorIndex][0] + "), color-stop(1, " + topicGradientSequence[colorIndex][1] + "));" +
-				// "border: 1px solid " + topicBorderColorSequence[0] + ";";
+	// 		sortedTopics[i].style = 
+	// 			"background-color: " + topicColorSequence[colorIndex];
+	// 			// "background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, " + topicGradientSequence[colorIndex][0] + "), color-stop(1, " + topicGradientSequence[colorIndex][1] + "));" +
+	// 			// "border: 1px solid " + topicBorderColorSequence[0] + ";";
 
-		}
+	// 	}
 
-	}
+	// }
 
 	function recurseExtractChildren(topics, topLevelTopic, sortedTopics) {
 

@@ -67,11 +67,8 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 		var contents = td.html();
 		var researchID = td.parent().attr("id");
 		var field = td.attr("class");
-		console.log(field);
 
-		$http.post("/api/research", {action: "updateResearch", field: field, researchID: researchID, contents: contents}).then(function(response) {
-			console.log(response.data);
-		});
+		$http.post("/api/research", {action: "updateResearch", field: field, researchID: researchID, contents: contents});
 	}
 
 

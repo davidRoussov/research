@@ -21,8 +21,8 @@
     <script src="js/notes.js"></script>
     <script src="js/recommendations.js"></script>
 
-    <link rel='stylesheet' href='/css/style.css' />
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' />
+    <link rel='stylesheet' href='/css/style.css' />
 
   </head>
 
@@ -31,14 +31,17 @@
 
     <div class="wrapper">
 
-    <!--menu bar at the top for navigation-->
-      <div ng-include src="'nav.html'"></div>
-
-    <!--The side bar on the left that displays topic/subtopics along with checkboxes-->
+      <!--The side bar on the left that displays topic/subtopics along with checkboxes-->
       <div class="topicsSideBar" ng-include src="'topics.html'" ng-controller="topicsController"></div>
 
-    <!--this is where the input fields will be, the view/analysis section, recommendations and notes-->
-      <ng-view></ng-view>
+      <div class="nav-and-content-container">
+        <!--menu bar at the top for navigation-->
+        <div ng-include src="'nav.html'"></div>
+
+        <!--this is where the input fields will be, the view/analysis section, recommendations and notes-->
+        <ng-view></ng-view>
+
+      </div>
 
     </div>
 
