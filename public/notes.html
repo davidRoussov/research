@@ -1,0 +1,14 @@
+<div class="viewNotesContainer">
+
+
+	<div class="single-topic-view" ng-repeat="topic in topics | orderBy : 'viewModeOrderRank'" id={{topic._id}} ng-if="topic.viewModeVisible">
+
+		<h1>{{topic.topicName}}</h1>
+
+		<textarea class="view-notes-textarea" ng-model="topic.notes" ng-blur="updateTopicNotes($event, topic)" ng-keyup="autoExpand()"></textarea>
+
+	</div>
+
+
+
+</div>

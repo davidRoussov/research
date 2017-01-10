@@ -1,6 +1,6 @@
 <div class="viewResearchContainer">
 
-	<div class="single-topic-view" ng-repeat="topic in topics" id={{topic._id}} ng-if="topic.viewModeVisible">
+	<div class="single-topic-view" ng-repeat="topic in topics | orderBy : 'viewModeOrderRank'" id={{topic._id}} ng-if="topic.viewModeVisible">
 
 		<input type="text" class="view-topic-title" ng-model="topic.topicName" ng-blur="editTopicTitle($event)">
 
@@ -68,6 +68,15 @@
 
 			<!-- end delete topic -->
 
+			<!-- button for displaying a column of delete buttons corresponding to particular research -->
+
+			<button type="button" class="btn btn-default topic-menu-button" ng-click="deleteResearchMode($event, topic._id)">
+			  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+			  Delete research
+			</button>
+
+			<!-- end delete research button -->
+
 		</div>
 
 		<div class="viewModeResearchArea">
@@ -76,6 +85,7 @@
 
 				<thead>
 					<tr>
+						<th ng-if="topic.showDeleteButtons">Delete?</th>
 						<th>Link</th>
 						<th>Title</th>
 						<th>Date</th>
@@ -86,7 +96,16 @@
 				<tbody>
 
 					<tr ng-repeat="research in topic.researches" id={{research._id}}>
-						<td class="view-research-link" contenteditable ng-model="research.link" ng-blur="editResearch($event)"></td>
+
+						<td class="view-research-delete-research" ng-if="topic.showDeleteButtons">
+
+							<button type="button" class="btn btn-default delete-research-button" aria-label="Left Align" ng-click="deleteResearch($event, research, topic)">
+        						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+      						</button>
+
+						</td>
+
+						<td class="view-research-link" contenteditable ng-model="research.link" ng-blur="editResearch($event)"><h</td>
 						<td class="view-research-title" contenteditable ng-model="research.title" ng-blur="editResearch($event)"></td>
 						<td class="view-research-date" contenteditable ng-model="research.date" ng-blur="editResearch($event)"></td>
 						<td class="view-research-source" contenteditable ng-model="research.source" ng-blur="editResearch($event)"></td>
@@ -110,3 +129,4 @@
 
 
 </div>
+

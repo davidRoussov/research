@@ -94,6 +94,13 @@ router.route("/research")
 			updateResearch(researchID, field, contents, function() {
 				response.json({success: true});
 			});
+		} else if (data.action === "deleteResearch") {
+			var topicID = data.topicID;
+			var researchID = data.researchID;
+
+			deleteResearch(topicID, researchID, function() {
+				response.json({success: true});
+			});
 		} else {
 			console.log("action: " + data.action);
 			return response.json({success: false});
@@ -109,8 +116,108 @@ router.route("/research/:topicID")
 		});
 	})
 
+router.route("/notes")
+	.post(function(request, response) {
+		var data = request.body;
+
+		if (data.action === "updateTopicNotes") {
+			var topicID = data.topicID;
+			var newText = data.newText;
+
+			updateTopicNotes(topicID, newText, function() {
+				response.json({success: true});
+			});
+		} else {
+			console.log("action: " + data.action);
+			return response.json({success: false});			
+		}
+	})
+
+router.route("/recommendations")
+	.get(function(request, response) {
+
+		Research.findOne({}, function(err, data) {
+
+			var recommendations = data.recommendations;
+
+			response.json({recommendations: recommendations});
+
+		});
+	})
+
+	.post(function(request, response) {
+
+		var newContent = request.body.newContent;
+
+		var newDoc = {recommendations: newContent};
+
+		Research.findOneAndUpdate({}, newDoc, function(err, doc) {
+			if (err) console.log(err);
+		});
+
+		response.json({success: true});
+
+	})
 
 module.exports = router;
+
+function updateTopicNotes(topicID, newText, callback) {
+
+	Research.findOne({}, function(err, data) {
+
+		var topics = data.topics;
+
+		for (var i = 0; i < topics.length; i++) {
+			if (topics[i]._id == topicID) {
+
+				topics[i].notes = newText;
+
+				break;
+			}
+		}
+
+		var newDoc = {topics: topics};
+
+		Research.findOneAndUpdate({}, newDoc, function(err, doc) {
+			if (err) console.log(err);
+
+			callback();
+		});
+
+	});
+}
+
+function deleteResearch(topicID, researchID, callback) {
+
+	Research.findOne({}, function(err, data) {
+
+		var research = data.research;
+		console.log(research);
+		console.log(research.length);
+
+		for (var i = 0; i < research.length; i++) {
+			if (research[i]._id == researchID) {
+				if (research[i].topicIDs.length > 1) {
+					var index = research[i].topicIDs.indexOf(topicID);
+					research[i].topicIDs.splice(index, 1);
+				} else {
+					research.splice(i, 1);
+				}
+
+				break;
+			}
+		}
+
+		var newDoc = {research: research};
+
+		Research.findOneAndUpdate({}, newDoc, function(err, doc) {
+			if (err) console.log(err);
+
+			callback();
+		});
+
+	});
+}
 
 function updateResearch(researchID, field, contents, callback) {
 
@@ -214,7 +321,8 @@ function createNewSubtopic(parentID, topicName, callback) {
 			topicName: topicName,
 			parentID: parentID,
 			rank: newRank,
-			height: newHeight
+			height: newHeight,
+			notes: ""			
 		}
 
 		topics.push(json);
@@ -303,7 +411,8 @@ function createTopLevelTopic(topicName) {
 			topicName: topicName,
 			parentID: null,
 			rank: newRank,
-			height: 1
+			height: 1,
+			notes: ""
 		}
 
 		topics.push(json);

@@ -1,17 +1,8 @@
 
-
 app.controller('topicsController', function($scope, $http, $rootScope) {
 	var self = this;
 
 	var sortedTopics; // consider figuring out how to get rid of this global variable
-
-	var topicColorSequence = ["#5C6BC0", "#8C8CFF", "#73C78F", "#A366A3", "#855C33"];
-	var topicHoverColorSequence = ["#7D89CD"];
-
-
-	var topicGradientSequence = [["#DB4C4C", "#D42626"],["#2626A8", "#0D0D9E"],["#267D26","#0D6E0D"],["#7D267D", "#6E0D6E"],["#7D5226", "#6E3D0Ds"]];
-	var topicBorderColorSequence = ["#CC0000"];
-
 
 	$rootScope.$on("showTopicsAfterNewSubtopic", function(event, data) {
 
@@ -39,8 +30,6 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 	function generateTopics(topics) {
 		sortTopics(topics);
-
-		// addTopicStyle();
 
 		initializeTopicVisibility();
 
@@ -100,10 +89,20 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 				if ($rootScope.topics[i].viewModeVisible) {
 					$rootScope.topics[i].viewModeVisible = false;
 				} else {
+
+
+
+
+					updateViewModeOrder(i);
+
+
+
+
 					$rootScope.topics[i].viewModeVisible = true;
 
 
 
+					
 
 
 
@@ -136,9 +135,41 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 	}
 
+	$scope.sortableOptions = {
+		stop: function(e, ui) {
+			
+			var element = ui.item.get(0);
+			var before = ui.item.prev().get(0);
+			var after = ui.item.next().get(0);
 
+			if (!before) {
 
+			} else if (!after) {
 
+			} else if (before && after) {
+
+			}
+
+			
+
+		}
+	}
+
+	// each topic has property viewModeOrderRank which determines the order topics appear
+	// when in view mode; the max order rank is found and when checkbox is clicked, that topic's
+	// viewModeOrderRank is that max order rank plus one
+	function updateViewModeOrder(topicIndex) {
+
+		var maxRank = -Infinity;
+		for (var i = 0; i < $rootScope.topics.length; i++) {
+			if ($rootScope.topics[i].viewModeOrderRank && $rootScope.topics[i].viewModeOrderRank > maxRank) {
+				maxRank = $rootScope.topics[i].viewModeOrderRank;
+			}
+		}
+		if (maxRank == -Infinity) maxRank = 0;
+
+		$rootScope.topics[topicIndex].viewModeOrderRank = maxRank + 1;
+	}
 
 
 	function sortTopics(topics) {
@@ -214,28 +245,6 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 			}
 		}
 	}
-
-	// function addTopicStyle() {
-
-	// 	for (var i = 0; i < sortedTopics.length; i++) {
-			
-			
-
-	// 		if (sortedTopics[i].addButtonParentID) {
-	// 			var topicHeight = sortedTopics[i].height;
-	// 		} else {
-	// 			var topicHeight = sortedTopics[i].height - 1;
-	// 		}
-	// 		var colorIndex = topicHeight % topicColorSequence.length;
-
-	// 		sortedTopics[i].style = 
-	// 			"background-color: " + topicColorSequence[colorIndex];
-	// 			// "background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, " + topicGradientSequence[colorIndex][0] + "), color-stop(1, " + topicGradientSequence[colorIndex][1] + "));" +
-	// 			// "border: 1px solid " + topicBorderColorSequence[0] + ";";
-
-	// 	}
-
-	// }
 
 	function recurseExtractChildren(topics, topLevelTopic, sortedTopics) {
 

@@ -16,13 +16,13 @@
     overflow: hidden;
 }
 
-.container-fluid .navbar-collapse {
+.container-fluid, .navbar-collapse {
     padding: 0px !important; /*removing left padding the exists by default in the navbar*/
 }
 
 
 /******************************/
-/* Topic level color sequence (FOUR) */
+/* Topic level color sequence (FIVE) */
 /******************************/
 .topic-level-1 {
     background-color: #5C6BC0;
@@ -31,22 +31,28 @@
     background-color: #7D89CD;
 }
 .topic-level-2 {
-    background-color: #8C8CFF;
+    background-color: #6A123C;
 }
 .topic-level-2:hover {
-    background-color: #7D89CD;
+    background-color: #B15983;
 }
 .topic-level-3 {
-    background-color: #73C78F;
+    background-color: #E47209;
 }
 .topic-level-3:hover {
-    background-color: #7D89CD;
+    background-color: #F79337;
+}
+.topic-level-4 {
+    background-color: #007F85;
+}
+.topic-level-4:hover {
+    background-color: #01A4AC;
 }
 .topic-level-0 {
-    background-color: #A366A3;
+    background-color: #2A6E05;
 }
 .topic-level-0:hover {
-    background-color: #7D89CD;
+    background-color: #418B1A;
 }
 
 
@@ -108,12 +114,12 @@
 }
 
 
-.addTopLevelTopicButton {
+.addTopLevelTopicButton, .delete-research-button {
     background-color: transparent !important;
     border: none !important;
     outline: none !important;
 }
-.addTopLevelTopicButton:active {
+.addTopLevelTopicButton:active, .delete-research-button:active{
     background-color: transparent !important;
     box-shadow: none !important;
     outline: none !important;
@@ -167,4 +173,30 @@
 .topic-menu-button:hover {
     text-decoration: underline !important;
     background-color: transparent !important;   
+}
+
+/******************************/
+/* research notes content area */
+/******************************/
+.viewNotesContainer {
+    overflow: hidden;
+    padding-left: 20px;
+}
+
+.view-notes-textarea {
+    width: 100%;
+}
+
+/******************************/
+/* recommendations content area */
+/******************************/
+.recommendations-container {
+    overflow: hidden;
+    padding: 20px;
+    height: 100vh;
+}
+
+.recommendations-textarea {
+    width: 100%;
+    height: 100%;
 }

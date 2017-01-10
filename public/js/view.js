@@ -71,6 +71,35 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 		$http.post("/api/research", {action: "updateResearch", field: field, researchID: researchID, contents: contents});
 	}
 
+	$scope.deleteResearchMode = function(event, topicID) {
+		var button = $(event.target);
+
+		for (var i = 0; i < $scope.topics.length; i++) {
+			if ($scope.topics[i]._id == topicID) {
+				if ($scope.topics[i].showDeleteButtons) {
+					$scope.topics[i].showDeleteButtons = false;
+
+					button.css("text-decoration", "none");
+				} else {
+					$scope.topics[i].showDeleteButtons = true;
+
+					button.css("text-decoration", "underline");
+				}
+			}
+		}
+
+
+	}
+
+	$scope.deleteResearch = function(event, research, topic) {
+		var researchID = research._id;
+		var topicID = topic._id;
+
+		$http.post("/api/research", {action: "deleteResearch", researchID: researchID, topicID: topicID}).then(function(response) {
+			console.log(response.data);
+		});
+	}
+
 
 	function deleteTopic(temptopics, topicID) {
 

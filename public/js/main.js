@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngRoute']);
+var app = angular.module('app', ['ngRoute', 'ui']);
 
 app.run( function($rootScope, $location) {
    $rootScope.$watch(function() { 
