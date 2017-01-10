@@ -1,15 +1,5 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
-<!--      Brand and toggle get grouped for better mobile display
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Research</a>
-    </div> -->
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -23,7 +13,70 @@
 
       </ul>
 
+        <div class="rs-auth" style="padding-right: 40px">
+          <p class="navbar-right navbar-text" ng-hide="authenticated"><a href="" data-toggle="modal" data-target="#rs-login-form">Login</a> or <a href="" data-toggle="modal" data-target="#rs-register-form">Register</a></p>
+
+
+
+            <!-- modal for login form-->
+            <div class="modal fade" id="rs-login-form" role="dialog">
+              <div class="modal-dialog">
+              
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Login</h4>
+                  </div>
+                  <div class="modal-body">
+                    <p class="text-warning">{{error_message}}</p>
+                    <input type="email" ng-model="user.email" placeholder="Email" class="form-control"><br>
+                    <input type="password" ng-model="user.password" placeholder="Password" class="form-control"><br>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+
+            <!-- modal for register form-->
+            <div class="modal fade" id="rs-register-form" role="dialog">
+              <div class="modal-dialog">
+              
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Register</h4>
+                  </div>
+                  <div class="modal-body">
+                    <p class="text-warning">{{error_message}}</p>
+                    <input type="email" ng-model="user.email" placeholder="Email" class="form-control"><br>
+                    <input type="password" ng-model="user.password" placeholder="Password" class="form-control"><br>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+
+
+
+          <p class="navbar-right navbar-text" ng-show="authenticated"><a href="" ng-click="signout()">Logout</a></p>
+        </div>
+
     </div><!-- /.navbar-collapse -->
 
+
+
   </div><!-- /.container-fluid -->
+
+
+
 </nav>

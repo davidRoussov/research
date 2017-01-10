@@ -45,7 +45,7 @@ app.config(function($routeProvider){
     .when('/recommendations', {
       templateUrl: 'recommendations.html',
       controller: 'researchRecommendationsController'
-    });
+    })
 });
 
 app.directive("contenteditable", function() {
@@ -68,4 +68,3 @@ app.directive("contenteditable", function() {
     }
   };
 });
-

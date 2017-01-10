@@ -26,6 +26,7 @@
     <script src="js/view.js"></script>
     <script src="js/notes.js"></script>
     <script src="js/recommendations.js"></script>
+    <script src="js/authController.js"></script>
 
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' />
     <link rel='stylesheet' href='/css/style.css' />
@@ -42,7 +43,7 @@
 
       <div class="nav-and-content-container">
         <!--menu bar at the top for navigation-->
-        <div ng-include src="'nav.html'"></div>
+        <div ng-include src="'nav.html'" ng-controller="authController"></div>
 
         <!--this is where the input fields will be, the view/analysis section, recommendations and notes-->
         <ng-view></ng-view>

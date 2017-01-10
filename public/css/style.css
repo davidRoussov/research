@@ -20,6 +20,9 @@
     padding: 0px !important; /*removing left padding the exists by default in the navbar*/
 }
 
+a:focus {
+    outline: none !important;
+}
 
 /******************************/
 /* Topic level color sequence (FIVE) */

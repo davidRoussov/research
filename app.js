@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 var passport = require('passport');
 var session = require('express-session');
-var authenticate = require('./routes/authenticate')(passport);
+var authenticate = require('./routes/authenticate');
 
 var mongoose = require('mongoose');
 var localdb = 'mongodb://localhost/test-research';
@@ -26,9 +26,6 @@ app.set('view engine', 'ejs');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(session({
-	secret: '1Dut5a43815f65d9fe50bea6b4a1102ee755d14cd7c9e3525c3bcca7731850ed1245SCz1Bh2PF1g8WMLkDMhMva4GHEYFgsszG6cjWxJmdzFU1DGBvGDyVkRS9ahXjutEvTyK6DuhH58gSWn8vwofeN4W6guXBGFH7f'
-}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -37,22 +34,16 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //// Initialize Passport
-var initPassport = require('./passport-init.js');
-initPassport(passport);
+require('./passport-init.js');
+app.use(passport.initialize());
 
 
 
 app.use('/api', api);
-// app.use('/auth', authenticate);
 
-// app.get("/*", function(req, res, next) {
-//     res.sendfile(__dirname + '/public/views/index.html');
-// });
-
-// app.get('*', function (req, res) {
-//     res.sendFile(__dirname + '/public/views/index.html');
-// });
-
+app.get('/login', function(request, response) {
+	response.sendFile(path.join(__dirname + '/public/login.html'));
+});
 
 
 // catch 404 and forward to error handler
