@@ -12,7 +12,8 @@ var authenticate = require('./routes/authenticate')(passport);
 var mongoose = require('mongoose');
 var localdb = 'mongodb://localhost/test-research';
 
-mongoose.connect(process.env.MONGOLAB_URI);
+var dbconnect = "mongodb://heroku_hw092bz0:dvfkjsqqfqpfa8sghhneeugoil@ds159988.mlab.com:59988/heroku_hw092bz0";
+mongoose.connect(dbconnect);
 require("./models/models.js");
 
 var index = require('./routes/index')
