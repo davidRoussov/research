@@ -5,10 +5,15 @@ var Research = mongoose.model('Research');
 var ObjectID = require('mongodb').ObjectID;
 
 router.route("/topics")
-	.get(function(request, response) {
-		
-		var topics;
-		Research.findOne({}, function(err,obj) { 
+
+	.post(function(request, response) {
+		var data = request.body;
+		var username = data.username;
+
+		if (data.action === "getTopics") {
+
+			var topics;
+			Research.findOne({username: username}, function(err,obj) { 
 
 			if (obj) {
 				var topics = obj.topics;
@@ -20,23 +25,19 @@ router.route("/topics")
 
 		});
 
-	})
-
-	.post(function(request, response) {
-		var data = request.body;
-
-		if (data.action === "createTopLevelTopic") {
+		}
+		else if (data.action === "createTopLevelTopic") {
 			var topicName = data.topicName;
 
-			createTopLevelTopic(topicName);
+			createTopLevelTopic(topicName, username);
 
 			return response.json({success: true});
 		}
 		else if (data.action === "createNewSubtopic") {
-			var parentID = request.body.parentID;
-			var topicName = request.body.topicName;	
+			var parentID = data.parentID;
+			var topicName = data.topicName;	
 
-			createNewSubtopic(parentID, topicName, function(newtopic) {
+			createNewSubtopic(parentID, topicName, username, function(newtopic) {
 				return response.json({newtopic: newtopic});
 			});
 
@@ -45,7 +46,7 @@ router.route("/topics")
 		else if (data.action === "updateTopics") {
 			var newTopics = request.body.topics;
 
-			updateTopics(newTopics);
+			updateTopics(newTopics, username);
 
 			return response.json({success: true});
 		}
@@ -62,12 +63,13 @@ router.route("/topics/:id")
 
 	.post(function(request, response) {
 		var data = request.body;
+		var username = data.username;
 
 		if (data.action === "updateTopicTitle") {
 			var topicID = request.params.id;
 			var newTitle = data.newTitle;
 
-			updateTopicTitle(topicID, newTitle);
+			updateTopicTitle(topicID, newTitle, username);
 
 			return response.json({success: true});
 		} else {
@@ -81,9 +83,10 @@ router.route("/topics/:id")
 router.route("/research")
 	.post(function(request, response) {
 		var data = request.body;
+		var username = data.username;
 
 		if (data.action === "insertNewResearch") {
-			insertNewResearch(data.document);
+			insertNewResearch(data.document, username);
 
 			return response.json({success: true});
 
@@ -91,15 +94,21 @@ router.route("/research")
 			var researchID = data.researchID;
 			var contents = data.contents;
 			var field = data.field;
-			updateResearch(researchID, field, contents, function() {
+			updateResearch(researchID, field, contents, username, function() {
 				response.json({success: true});
 			});
 		} else if (data.action === "deleteResearch") {
 			var topicID = data.topicID;
 			var researchID = data.researchID;
 
-			deleteResearch(topicID, researchID, function() {
+			deleteResearch(topicID, researchID, username, function() {
 				response.json({success: true});
+			});
+		} else if (data.action === "getResearch") {
+			var topicID = data.topicID;
+
+			getResearch(topicID, username, function(research) {
+				response.send({research: research});
 			});
 		} else {
 			console.log("action: " + data.action);
@@ -107,24 +116,25 @@ router.route("/research")
 		}
 	})
 
-router.route("/research/:topicID")
-	.get(function(request, response) {
-		var topicID = request.params.topicID;
+// router.route("/research/:topicID")
+// 	.get(function(request, response) {
+// 		var topicID = request.params.topicID;
 
-		getResearch(topicID, function(research) {
-			response.send({research: research});
-		});
-	})
+// 		getResearch(topicID, function(research) {
+// 			response.send({research: research});
+// 		});
+// 	})
 
 router.route("/notes")
 	.post(function(request, response) {
 		var data = request.body;
+		var username = data.username;
 
 		if (data.action === "updateTopicNotes") {
 			var topicID = data.topicID;
 			var newText = data.newText;
 
-			updateTopicNotes(topicID, newText, function() {
+			updateTopicNotes(topicID, newText, username, function() {
 				response.json({success: true});
 			});
 		} else {
@@ -134,36 +144,48 @@ router.route("/notes")
 	})
 
 router.route("/recommendations")
-	.get(function(request, response) {
-
-		Research.findOne({}, function(err, data) {
-
-			var recommendations = data.recommendations;
-
-			response.json({recommendations: recommendations});
-
-		});
-	})
 
 	.post(function(request, response) {
+		console.log("asged");
 
-		var newContent = request.body.newContent;
+		var data = request.body;
+		var username = data.username;
 
-		var newDoc = {recommendations: newContent};
+		if (data.action === "updateRecommendations") {
+			var newContent = data.newContent;
 
-		Research.findOneAndUpdate({}, newDoc, function(err, doc) {
-			if (err) console.log(err);
-		});
+			var newDoc = {recommendations: newContent};
+			console.log(newContent);
 
-		response.json({success: true});
+			Research.findOneAndUpdate({username: username}, newDoc, function(err, doc) {
+				if (err) console.log(err);
+			});
+
+			response.json({success: true});
+		}
+		else if (data.action === "getRecommendations") {
+
+			Research.findOne({username: username}, function(err, data) {
+
+				var recommendations = data.recommendations;
+
+				response.json({recommendations: recommendations});
+
+			});
+		} else {
+			console.log("action: " + data.action);
+			return response.json({success: false});			
+		}
+
+
 
 	})
 
 module.exports = router;
 
-function updateTopicNotes(topicID, newText, callback) {
+function updateTopicNotes(topicID, newText, username, callback) {
 
-	Research.findOne({}, function(err, data) {
+	Research.findOne({username: username}, function(err, data) {
 
 		var topics = data.topics;
 
@@ -178,7 +200,7 @@ function updateTopicNotes(topicID, newText, callback) {
 
 		var newDoc = {topics: topics};
 
-		Research.findOneAndUpdate({}, newDoc, function(err, doc) {
+		Research.findOneAndUpdate({username: username}, newDoc, function(err, doc) {
 			if (err) console.log(err);
 
 			callback();
@@ -187,13 +209,11 @@ function updateTopicNotes(topicID, newText, callback) {
 	});
 }
 
-function deleteResearch(topicID, researchID, callback) {
+function deleteResearch(topicID, researchID, username, callback) {
 
-	Research.findOne({}, function(err, data) {
+	Research.findOne({username: username}, function(err, data) {
 
 		var research = data.research;
-		console.log(research);
-		console.log(research.length);
 
 		for (var i = 0; i < research.length; i++) {
 			if (research[i]._id == researchID) {
@@ -210,7 +230,7 @@ function deleteResearch(topicID, researchID, callback) {
 
 		var newDoc = {research: research};
 
-		Research.findOneAndUpdate({}, newDoc, function(err, doc) {
+		Research.findOneAndUpdate({username: username}, newDoc, function(err, doc) {
 			if (err) console.log(err);
 
 			callback();
@@ -219,9 +239,9 @@ function deleteResearch(topicID, researchID, callback) {
 	});
 }
 
-function updateResearch(researchID, field, contents, callback) {
+function updateResearch(researchID, field, contents, username, callback) {
 
-	Research.findOne({}, function(err, data) {
+	Research.findOne({username: username}, function(err, data) {
 
 		var allResearch = data.research;
 
@@ -248,7 +268,7 @@ function updateResearch(researchID, field, contents, callback) {
 
 		var newDoc = {research: allResearch};
 
-		Research.findOneAndUpdate({}, newDoc, function(err, doc) {
+		Research.findOneAndUpdate({username: username}, newDoc, function(err, doc) {
 			if (err) console.log(err);
 		});
 
@@ -257,30 +277,33 @@ function updateResearch(researchID, field, contents, callback) {
 
 }
 
-function getResearch(topicID, callback) {
+function getResearch(topicID, username, callback) {
 
-	Research.findOne({}, function(err, data) {
-
-		var allResearch = data.research;
+	Research.findOne({username: username}, function(err, data) {
 
 		var research = [];
-		for (var i = 0; i < allResearch.length; i++) {
-			var topicIDs = allResearch[i].topicIDs;
-			for (var j = 0; j < topicIDs.length; j++) {
-				if (topicIDs[j] == topicID) {
-					research.push(allResearch[i]);
+		if (data) {
+			var allResearch = data.research;
+
+			for (var i = 0; i < allResearch.length; i++) {
+				var topicIDs = allResearch[i].topicIDs;
+				for (var j = 0; j < topicIDs.length; j++) {
+					if (topicIDs[j] == topicID) {
+						research.push(allResearch[i]);
+					}
 				}
-			}
+			}	
 		}
+
 
 		callback(research);
 
 	});
 }
 
-function insertNewResearch(document) {
+function insertNewResearch(document, username) {
 
-	Research.findOne({}, function(err, data) {
+	Research.findOne({username: username}, function(err, data) {
 
 		var research = data.research;
 
@@ -288,7 +311,7 @@ function insertNewResearch(document) {
 
 		var newDoc = {research: research};
 
-		Research.findOneAndUpdate({}, newDoc, function(err, doc) {
+		Research.findOneAndUpdate({username: username}, newDoc, function(err, doc) {
 			if (err) console.log(err);
 		});
 
@@ -296,17 +319,17 @@ function insertNewResearch(document) {
 
 }
 
-function updateTopics(topics) {
+function updateTopics(topics, username) {
 	var newDoc = {topics: topics};
 
-	Research.findOneAndUpdate({}, newDoc, function(err, doc) {
+	Research.findOneAndUpdate({username: username}, newDoc, function(err, doc) {
 		if (err) console.log(err);
 	});
 }
 
-function createNewSubtopic(parentID, topicName, callback) {
+function createNewSubtopic(parentID, topicName, username, callback) {
 
-	Research.findOne({}, function(err, data) {
+	Research.findOne({username: username}, function(err, data) {
 
 		var topics = data.topics;
 
@@ -331,7 +354,7 @@ function createNewSubtopic(parentID, topicName, callback) {
 
 		var newDoc = {topics: topics};
 
-		Research.findOneAndUpdate({}, newDoc, {upsert: true}, function(err, doc) {
+		Research.findOneAndUpdate({username: username}, newDoc, {upsert: true}, function(err, doc) {
 			if (err) console.log(err);
 		});
 
@@ -361,9 +384,9 @@ function getTopicHeight(topics, id) {
 	}	
 }
 
-function updateTopicTitle(topicID, newTitle) {
+function updateTopicTitle(topicID, newTitle, username) {
 
-	Research.findOne({}, function(err, data) {
+	Research.findOne({username: username}, function(err, data) {
 
 		if (err) {
 			console.log("error: could not update topic title");
@@ -379,16 +402,16 @@ function updateTopicTitle(topicID, newTitle) {
 
 		data.topics = topics;
 
-		Research.findOneAndUpdate({}, data, function(err, doc) {
+		Research.findOneAndUpdate({username: username}, data, function(err, doc) {
 			if (err) console.log(err);
 		});
 
 	});
 }
 
-function createTopLevelTopic(topicName) {
+function createTopLevelTopic(topicName, username) {
 
-	Research.findOne({}, function(err, data) {
+	Research.findOne({username: username}, function(err, data) {
 
 		if (err) {
 			console.log("error: could not create top level topic");
@@ -396,12 +419,14 @@ function createTopLevelTopic(topicName) {
 		}
 		
 		// checking if user has any topics in db initially
-		var topics;
+		var topics
+		var newDoc = {};
 		if (data) {
 			topics = data.topics;
 
 		} else {
 			topics = [];
+			newDoc.username = username;
 		}	
 
 		var newRank = getHighestRank(topics, null) + 1;
@@ -417,9 +442,9 @@ function createTopLevelTopic(topicName) {
 
 		topics.push(json);
 
-		var newDoc = {topics: topics};
+		newDoc.topics = topics;
 
-		Research.findOneAndUpdate({}, newDoc, {upsert: true}, function(err, doc) {
+		Research.findOneAndUpdate({username: username}, newDoc, {upsert: true}, function(err, doc) {
 			if (err) console.log(err);
 		});
 

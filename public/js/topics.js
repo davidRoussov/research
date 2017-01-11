@@ -13,10 +13,16 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 	});
 
+	$rootScope.$on("showTopicsAfterLogin", function(event, data) {
+		self.showTopics();
+	});
+
 
 	self.showTopics = function() {
 
-		$http.get("/api/topics").then(function(response) {
+		var username = $rootScope.current_user;
+
+		$http.post("/api/topics", {action: "getTopics", username: username}).then(function(response) {
 
 			if (response.notopics) return;
 
@@ -27,6 +33,7 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 		});
 
 	}
+	self.showTopics();
 
 	function generateTopics(topics) {
 		sortTopics(topics);
@@ -36,7 +43,6 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 		$rootScope.topics = sortedTopics;	
 	}
 
-	self.showTopics();
 
 
 
@@ -69,8 +75,9 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 		var button = $(event.target);
 		var topicName = button.parent().prev().children().first().val();
+		var username = $rootScope.current_user;
 
-	    $http.post('/api/topics', {action: "createTopLevelTopic", topicName: topicName}).then(function(response) {
+	    $http.post('/api/topics', {action: "createTopLevelTopic", topicName: topicName, username: username}).then(function(response) {
 	    	self.showTopics();
 	    	$('.modal').modal('hide');
 	    });
@@ -108,14 +115,20 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 					var topicID = $rootScope.topics[i]._id;
 
+					var username = $rootScope.current_user;
 
 
-				    $http.get('/api/research/' + topicID).then(function(response) {
+
+				    // $http.get('/api/research/' + topicID).then(function(response) {
 
 
-				    	$rootScope.topics[i].researches = response.data.research;
+				    // 	$rootScope.topics[i].researches = response.data.research;
 
-				    });
+				    // });
+				
+						$http.post('/api/research', {action: "getResearch", topicID: topicID, username: username}).then(function(response) {
+							$rootScope.topics[i].researches = response.data.research;
+						});
 
 
 

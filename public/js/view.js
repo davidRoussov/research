@@ -8,16 +8,18 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 		var input = $(event.target);
 		var newTitle = input.val();
 		var topicID = input.parent().attr("id");
+		var username = $rootScope.current_user;
 
-		$http.post("/api/topics/" + topicID, {action: "updateTopicTitle", newTitle: newTitle});
+		$http.post("/api/topics/" + topicID, {action: "updateTopicTitle", username: username, newTitle: newTitle});
 	};
 
 
 	$scope.createNewSubtopic = function(topic, newTopic) {
 		
 		var parentID = topic._id;
+		var username = $rootScope.current_user;
 
-		$http.post('/api/topics', {action: "createNewSubtopic", parentID: parentID, topicName: newTopic}).then(function(response) {
+		$http.post('/api/topics', {action: "createNewSubtopic", username: username, parentID: parentID, topicName: newTopic}).then(function(response) {
 	    	$('.modal').modal('hide');
 	    	$('.modal-backdrop').remove();
 
@@ -59,7 +61,9 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 		var temptopics = $rootScope.topics.slice();
 		deleteTopic(temptopics, topicID);
 
-		$http.post("/api/topics", {action: "updateTopics", topics: $rootScope.topics});
+		var username = $rootScope.current_user;
+
+		$http.post("/api/topics", {action: "updateTopics", username: username, topics: $rootScope.topics});
 	}
 
 	$scope.editResearch = function(event) {
@@ -68,7 +72,9 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 		var researchID = td.parent().attr("id");
 		var field = td.attr("class");
 
-		$http.post("/api/research", {action: "updateResearch", field: field, researchID: researchID, contents: contents});
+		var username = $rootScope.current_user;
+
+		$http.post("/api/research", {action: "updateResearch", username: username, field: field, researchID: researchID, contents: contents});
 	}
 
 	$scope.deleteResearchMode = function(event, topicID) {
@@ -95,7 +101,9 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 		var researchID = research._id;
 		var topicID = topic._id;
 
-		$http.post("/api/research", {action: "deleteResearch", researchID: researchID, topicID: topicID}).then(function(response) {
+		var username = $rootScope.current_user;
+
+		$http.post("/api/research", {action: "deleteResearch", username: username, researchID: researchID, topicID: topicID}).then(function(response) {
 			console.log(response.data);
 		});
 	}

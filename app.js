@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 var passport = require('passport');
 var session = require('express-session');
-var authenticate = require('./routes/authenticate');
+var authenticate = require('./routes/authenticate')(passport);
 
 var mongoose = require('mongoose');
 var localdb = 'mongodb://localhost/test-research';
@@ -34,16 +34,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //// Initialize Passport
-require('./passport-init.js');
-app.use(passport.initialize());
+var initPassport = require('./passport-init');
+initPassport(passport);
 
 
 
 app.use('/api', api);
+app.use('/auth', authenticate);
 
-app.get('/login', function(request, response) {
-	response.sendFile(path.join(__dirname + '/public/login.html'));
-});
 
 
 // catch 404 and forward to error handler

@@ -1,5 +1,5 @@
 
-app.controller("addResearchController", function($scope, $http, $timeout) {
+app.controller("addResearchController", function($scope, $http, $timeout, $rootScope) {
 
 	$(".active").removeClass("active"); // removing top bar menu navigation highlighting
 	$("a[href='/']").parent().addClass("active"); // making add menu button highlighted
@@ -16,13 +16,15 @@ app.controller("addResearchController", function($scope, $http, $timeout) {
 		});
 
 		if (topicIDs.length === 0) {
-			console.log($scope.showFailureAlert);
 			$scope.showFailureAlert = true;
 			return;
 		}
 
+		var username = $rootScope.current_user;
+
 		var json = {
 			action: "insertNewResearch",
+			username: username,
 			document: {
 				topicIDs: topicIDs,
 				link: link,

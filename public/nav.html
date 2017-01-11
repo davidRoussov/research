@@ -30,11 +30,11 @@
                   </div>
                   <div class="modal-body">
                     <p class="text-warning">{{error_message}}</p>
-                    <input type="email" ng-model="user.email" placeholder="Email" class="form-control"><br>
+                    <input type="text" ng-model="user.email" placeholder="Email" class="form-control"><br>
                     <input type="password" ng-model="user.password" placeholder="Password" class="form-control"><br>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-primary" ng-click="login(user.email, user.password)">Submit</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                   </div>
                 </div>
@@ -54,11 +54,11 @@
                   </div>
                   <div class="modal-body">
                     <p class="text-warning">{{error_message}}</p>
-                    <input type="email" ng-model="user.email" placeholder="Email" class="form-control"><br>
+                    <input type="text" ng-model="user.email" placeholder="Email" class="form-control"><br>
                     <input type="password" ng-model="user.password" placeholder="Password" class="form-control"><br>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-primary" ng-click="register(user.email, user.password)">Submit</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                   </div>
                 </div>
