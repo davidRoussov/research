@@ -16,7 +16,9 @@ app.controller("authController", function($scope, $http, $rootScope) {
 
 				$scope.authenticated = true;
 
-				$rootScope.$emit("showTopicsAfterLogin",{});
+				$rootScope.$emit("refreshTopics",{});
+
+				$(".user-input").val("");
 			}
 			else {
 				$scope.error_message = response.data.error_message;
@@ -36,8 +38,9 @@ app.controller("authController", function($scope, $http, $rootScope) {
 
 		    	$rootScope.current_user = response.data.username;
 
-
 				$scope.authenticated = true;
+
+				$(".user-input").val("");
 			}
 			else {
 				$scope.error_message = response.data.error_message;
@@ -51,7 +54,7 @@ app.controller("authController", function($scope, $http, $rootScope) {
 
 		$scope.authenticated = false;
 
-		$rootScope.$emit("showTopicsAfterLogin",{});
+		$rootScope.$emit("refreshTopics",{});
 	}
 
 });

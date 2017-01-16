@@ -51,6 +51,8 @@ app.controller("addResearchController", function($scope, $http, $timeout, $rootS
 		$("#inputDate").val('');
 		$("#inputSource").val('');
 		$("#inputSummary").val('');
+
+		$scope.showSuccessAlert = false;
 	}
 
 	$scope.closeSuccessAlert = function() { $scope.showSuccessAlert = false; }

@@ -77,6 +77,11 @@
 
 			<!-- end delete research button -->
 
+			<button type="button" class="btn btn-default topic-menu-button" ng-click="showResearchLinks = !showResearchLinks">
+			  <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+			  Edit links
+			</button>
+
 		</div>
 
 		<div class="viewModeResearchArea">
@@ -105,7 +110,8 @@
 
 						</td>
 
-						<td class="view-research-link" contenteditable ng-model="research.link" ng-blur="editResearch($event)"><h</td>
+						<td class="view-research-link" contenteditable ng-model="research.link" ng-blur="editResearch($event)" ng-if="showResearchLinks"></td>
+						<td ng-if="!showResearchLinks"><a href={{research.link}}>Link</a></td>
 						<td class="view-research-title" contenteditable ng-model="research.title" ng-blur="editResearch($event)"></td>
 						<td class="view-research-date" contenteditable ng-model="research.date" ng-blur="editResearch($event)"></td>
 						<td class="view-research-source" contenteditable ng-model="research.source" ng-blur="editResearch($event)"></td>

@@ -13,7 +13,7 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 	});
 
-	$rootScope.$on("showTopicsAfterLogin", function(event, data) {
+	$rootScope.$on("refreshTopics", function(event, data) {
 		self.showTopics();
 	});
 
