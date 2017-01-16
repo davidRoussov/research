@@ -45,4 +45,13 @@ app.controller("authController", function($scope, $http, $rootScope) {
 		})
 	}
 
+	$scope.signout = function() {
+
+		$rootScope.current_user = null;
+
+		$scope.authenticated = false;
+
+		$rootScope.$emit("showTopicsAfterLogin",{});
+	}
+
 });
