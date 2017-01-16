@@ -2,6 +2,7 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 
 	$(".active").removeClass("active"); // removing top bar menu navigation highlighting
 	$("a[href='/#!/view']").parent().addClass("active"); // making view menu button highlighted
+	
 
 
 	$scope.editTopicTitle = function(event) {

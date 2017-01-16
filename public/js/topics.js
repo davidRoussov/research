@@ -126,9 +126,9 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 				    // });
 				
-						$http.post('/api/research', {action: "getResearch", topicID: topicID, username: username}).then(function(response) {
-							$rootScope.topics[i].researches = response.data.research;
-						});
+					$http.post('/api/research', {action: "getResearch", topicID: topicID, username: username}).then(function(response) {
+						$rootScope.topics[i].researches = response.data.research;
+					});
 
 
 

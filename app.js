@@ -14,7 +14,7 @@ var localdb = 'mongodb://localhost/test-research';
 
 // heroku cli: heroku config
 var dbconnect = "mongodb://heroku_hw092bz0:dvfkjsqqfqpfa8sghhneeugoil@ds159988.mlab.com:59988/heroku_hw092bz0";
-mongoose.connect(localdb);
+mongoose.connect(dbconnect);
 require("./models/models.js");
 
 var index = require('./routes/index')
