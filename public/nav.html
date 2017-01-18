@@ -30,8 +30,8 @@
                   </div>
                   <div class="modal-body">
                     <p class="text-warning">{{error_message}}</p>
-                    <input type="text" ng-model="email" placeholder="Email" class="form-control user-input"><br>
-                    <input type="password" ng-model="password" placeholder="Password" class="form-control user-input"><br>
+                    <input type="text" ng-model="email" placeholder="Email" class="form-control user-input" press-enter="login(email, password)"><br>
+                    <input type="password" ng-model="password" placeholder="Password" class="form-control user-input" press-enter="login(email, password)"><br>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-primary" ng-click="login(email, password)">Submit</button>
@@ -56,9 +56,10 @@
                     <p class="text-warning">{{error_message}}</p>
                     <input type="text" ng-model="user.email" placeholder="Email" class="form-control user-input"><br>
                     <input type="password" ng-model="user.password" placeholder="Password" class="form-control user-input"><br>
+                    <input type="password" ng-model="user.password2" placeholder="Enter password again" class="form-control user-input"><br>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" ng-click="register(user.email, user.password)">Submit</button>
+                    <button type="button" class="btn btn-primary" ng-click="register(user.email, user.password, user.password2)">Submit</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                   </div>
                 </div>

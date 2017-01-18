@@ -1,7 +1,5 @@
 
-
 app.controller("authController", function($scope, $http, $rootScope) {
-
 
 	$scope.login = function(email, password) {
 		var user = {username: email, password: password};
@@ -28,15 +26,19 @@ app.controller("authController", function($scope, $http, $rootScope) {
 
 	}
 
-	$scope.register = function(email, password) {
+	$scope.register = function(email, password, password2) {
+		if (password !== password2) {
+			$scope.error_message = "passwords do not match";
+			return;
+		}
+
 		var user = {username: email, password: password};
 
 		$http.post('/auth/signup', user).then(function(response) {
 			if (response.data.success) {
-				$('.modal').modal('hide');
-		    	$('.modal-backdrop').remove();
+				hideModal();
 
-		    	$rootScope.current_user = response.data.username;
+		    	$rootScope.current_user = user.username;
 
 				$scope.authenticated = true;
 
