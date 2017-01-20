@@ -20,11 +20,12 @@ app.controller("addResearchController", function($scope, $http, $timeout, $rootS
 			return;
 		}
 
-		var username = $rootScope.current_user;
+		var userID = localStorage.getItem("userID");
+		if (!userID) return;
 
 		var json = {
 			action: "insertNewResearch",
-			username: username,
+			userID: userID,
 			document: {
 				topicIDs: topicIDs,
 				link: link,
@@ -36,6 +37,7 @@ app.controller("addResearchController", function($scope, $http, $timeout, $rootS
 			}
 
 		}
+
 
 		$http.post('/api/research', json).then(function(response) {
 

@@ -1,16 +1,38 @@
 
 app.controller("authController", function($scope, $http, $rootScope) {
 
+	// checking local storage for user id
+	var userID = localStorage.getItem("userID");
+	if (userID !== "null") {
+	  $scope.authenticated = true;
+	  $scope.username = localStorage.getItem("username");
+	}
+
 	$scope.login = function(email, password) {
 		var user = {username: email, password: password};
 
 		$http.post('/auth/login', user).then(function(response) {
 
 			if (response.data.success) {
-				$('.modal').modal('hide');
-		    	$('.modal-backdrop').remove();
+				
+				hideModal();
 
-				$rootScope.current_user = user.username;
+
+
+
+
+				// setting HTML5 web storage
+		    	var userID = response.data.user._id;
+		    	var username = response.data.user.username;
+
+		    	localStorage.setItem("userID", userID);
+		    	localStorage.setItem("username", username)
+
+		    	$scope.username = username;
+
+
+
+
 
 				$scope.authenticated = true;
 
@@ -38,7 +60,20 @@ app.controller("authController", function($scope, $http, $rootScope) {
 			if (response.data.success) {
 				hideModal();
 
-		    	$rootScope.current_user = user.username;
+
+
+				// setting HTML5 web storage
+		    	var userID = response.data.user._id;
+		    	var username = response.data.user.username;
+
+		    	localStorage.setItem("userID", userID);
+		    	localStorage.setItem("username", username)
+
+		    	$scope.username = username;
+
+
+
+
 
 				$scope.authenticated = true;
 
@@ -52,11 +87,15 @@ app.controller("authController", function($scope, $http, $rootScope) {
 
 	$scope.signout = function() {
 
-		$rootScope.current_user = null;
+		$scope.username = null;
 
 		$scope.authenticated = false;
 
-		$rootScope.$emit("refreshTopics",{});
+		localStorage.setItem("userID", null);
+		localStorage.setItem("username", null);
+
+		$rootScope.topics = [];
 	}
+
 
 });

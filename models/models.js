@@ -26,7 +26,7 @@ var researchSchema = new mongoose.Schema({
 	topics: [topicSchema],
 	research: [documentSchema],
 	recommendations: {type: String},
-	username: {type: String}
+	userID: {type: String}
 });
 
 

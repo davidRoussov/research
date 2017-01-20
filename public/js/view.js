@@ -9,18 +9,20 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 		var input = $(event.target);
 		var newTitle = input.val();
 		var topicID = input.parent().attr("id");
-		var username = $rootScope.current_user;
 
-		$http.post("/api/topics/" + topicID, {action: "updateTopicTitle", username: username, newTitle: newTitle});
+		var userID = localStorage.getItem("userID");
+
+		$http.post("/api/topics/" + topicID, {action: "updateTopicTitle", userID: userID, newTitle: newTitle});
 	};
 
 
 	$scope.createNewSubtopic = function(topic, newTopic) {
 		
 		var parentID = topic._id;
-		var username = $rootScope.current_user;
 
-		$http.post('/api/topics', {action: "createNewSubtopic", username: username, parentID: parentID, topicName: newTopic}).then(function(response) {
+		var userID = localStorage.getItem("userID");
+
+		$http.post('/api/topics', {action: "createNewSubtopic", userID: userID, parentID: parentID, topicName: newTopic}).then(function(response) {
 	    	$('.modal').modal('hide');
 	    	$('.modal-backdrop').remove();
 
@@ -62,9 +64,9 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 		var temptopics = $rootScope.topics.slice();
 		deleteTopic(temptopics, topicID);
 
-		var username = $rootScope.current_user;
+		var userID = localStorage.getItem("userID");
 
-		$http.post("/api/topics", {action: "updateTopics", username: username, topics: $rootScope.topics});
+		$http.post("/api/topics", {action: "updateTopics", userID: userID, topics: $rootScope.topics});
 	}
 
 	$scope.editResearch = function(event) {
@@ -73,9 +75,9 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 		var researchID = td.parent().attr("id");
 		var field = td.attr("class");
 
-		var username = $rootScope.current_user;
+		var userID = localStorage.getItem("userID");
 
-		$http.post("/api/research", {action: "updateResearch", username: username, field: field, researchID: researchID, contents: contents});
+		$http.post("/api/research", {action: "updateResearch", userID: userID, field: field, researchID: researchID, contents: contents});
 	}
 
 	$scope.deleteResearchMode = function(event, topicID) {
@@ -102,9 +104,9 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 		var researchID = research._id;
 		var topicID = topic._id;
 
-		var username = $rootScope.current_user;
+		var userID = localStorage.getItem("userID");
 
-		$http.post("/api/research", {action: "deleteResearch", username: username, researchID: researchID, topicID: topicID}).then(function(response) {
+		$http.post("/api/research", {action: "deleteResearch", userID: userID, researchID: researchID, topicID: topicID}).then(function(response) {
 			console.log(response.data);
 		});
 	}

@@ -2,7 +2,12 @@
 app.controller('topicsController', function($scope, $http, $rootScope) {
 	var self = this;
 
-	var sortedTopics; // consider figuring out how to get rid of this global variable
+	var sortedTopics;
+
+
+
+	/////////////////////////////////////////////////////////////////////////
+
 
 	$rootScope.$on("showTopicsAfterNewSubtopic", function(event, data) {
 
@@ -20,11 +25,14 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 	self.showTopics = function() {
 
-		var username = $rootScope.current_user;
+		var userID = localStorage.getItem("userID");
+		if (!userID) return;
 
-		$http.post("/api/topics", {action: "getTopics", username: username}).then(function(response) {
+		$http.post("/api/topics", {action: "getTopics", userID: userID}).then(function(response) {
 
-			if (response.notopics) return;
+			if (response.data.notopics)  {
+				return;
+			}
 
 			else {
 				generateTopics(response.data);
@@ -51,6 +59,10 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 
 
+
+
+
+
 	$scope.expandOrCollapseTopic = function(event) {
 
 		var button = $(event.target);
@@ -71,15 +83,14 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 	}
 
 
-	$scope.addTopLevelResearch = function(event) {
+	$scope.addTopLevelResearch = function(topicName) {
 
-		var button = $(event.target);
-		var topicName = button.parent().prev().children().first().val();
-		var username = $rootScope.current_user;
+		var userID = localStorage.getItem("userID");
 
-	    $http.post('/api/topics', {action: "createTopLevelTopic", topicName: topicName, username: username}).then(function(response) {
+	    $http.post('/api/topics', {action: "createTopLevelTopic", topicName: topicName, userID: userID}).then(function(response) {
 	    	self.showTopics();
-	    	$('.modal').modal('hide');
+	    	hideModal();
+	    	$scope.newTopicName = "";
 	    });
 	    
 	}
@@ -115,8 +126,8 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 					var topicID = $rootScope.topics[i]._id;
 
-					var username = $rootScope.current_user;
 
+					var userID = localStorage.getItem("userID");
 
 
 				    // $http.get('/api/research/' + topicID).then(function(response) {
@@ -126,7 +137,7 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 				    // });
 				
-					$http.post('/api/research', {action: "getResearch", topicID: topicID, username: username}).then(function(response) {
+					$http.post('/api/research', {action: "getResearch", topicID: topicID, userID: userID}).then(function(response) {
 						$rootScope.topics[i].researches = response.data.research;
 					});
 

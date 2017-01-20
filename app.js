@@ -14,7 +14,7 @@ var localdb = 'mongodb://localhost/test-research';
 
 // heroku cli: heroku config
 var dbconnect = "mongodb://heroku_hw092bz0:dvfkjsqqfqpfa8sghhneeugoil@ds159988.mlab.com:59988/heroku_hw092bz0";
-mongoose.connect(dbconnect);
+mongoose.connect(localdb);
 require("./models/models.js");
 
 var index = require('./routes/index')
@@ -28,6 +28,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(session({secret: 'orgnwore7y876976g975f976f7o6fignewrogin'}));
 
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
