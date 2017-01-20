@@ -129,13 +129,6 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 					var userID = localStorage.getItem("userID");
 
-
-				    // $http.get('/api/research/' + topicID).then(function(response) {
-
-
-				    // 	$rootScope.topics[i].researches = response.data.research;
-
-				    // });
 				
 					$http.post('/api/research', {action: "getResearch", topicID: topicID, userID: userID}).then(function(response) {
 						$rootScope.topics[i].researches = response.data.research;
