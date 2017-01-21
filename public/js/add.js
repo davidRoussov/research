@@ -8,10 +8,10 @@ app.controller("addResearchController", function($scope, $http, $timeout, $rootS
 
 		// looping over checkboxes to see which topics the research is to be submitted for
 		var topicIDs = [];
-		$(".oneTopic").each(function() {
-			var checked = $(this).children().first().children().first().is(":checked");
+		$(".topic-checkbox").each(function() {
+			var checked = $(this).is(":checked")
 			if (checked) {
-				topicIDs.push($(this).attr("id"));
+				topicIDs.push($(this).parent().parent().parent().attr("id"));
 			}
 		});
 
@@ -19,6 +19,16 @@ app.controller("addResearchController", function($scope, $http, $timeout, $rootS
 			$scope.showFailureAlert = true;
 			return;
 		}
+
+
+		// prepending http:// to link if it doesn't already contain it
+		if (link && !link.match(/^[a-zA-Z]+:\/\//))
+		{
+		    link = 'http://' + link;
+		}
+
+		// replace newlines /n with html line breaks <br>
+		summary = summary.replace(/\r?\n/g, '<br />');
 
 		var userID = localStorage.getItem("userID");
 		if (!userID) return;

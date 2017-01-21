@@ -154,7 +154,7 @@
 						</td>
 
 						<td class="view-research-link" contenteditable ng-model="research.link" ng-blur="editResearch($event)" ng-if="showResearchLinks"></td>
-						<td ng-if="!showResearchLinks"><a href={{research.link}}>Link</a></td>
+						<td ng-if="!showResearchLinks"><a href={{research.link}} target="_blank">Link</a></td>
 						<td class="view-research-title" contenteditable ng-model="research.title" ng-blur="editResearch($event)"></td>
 						<td class="view-research-date" contenteditable ng-model="research.date" ng-blur="editResearch($event)"></td>
 						<td class="view-research-source" contenteditable ng-model="research.source" ng-blur="editResearch($event)"></td>
