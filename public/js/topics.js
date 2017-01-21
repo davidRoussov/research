@@ -64,7 +64,6 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 
 	$scope.expandOrCollapseTopic = function(event) {
-		console.log($rootScope.topics);
 
 		var button = $(event.target);
 		var topicID = button.parent().parent().attr("id");
@@ -272,16 +271,9 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 		// removing topppest level topic from available choices
 		for (var i = 0; i < topics.length; i++) {
-			try {
-				if (topics[i]._id === topLevelTopic._id) {
-					topics.splice(i, 1);
-				}
-			} catch(err) {
-				console.log(topics);
-				console.log(sortedTopics);
-				return;
+			if (topics[i]._id === topLevelTopic._id) {
+				topics.splice(i, 1);
 			}
-
 		}
 
 

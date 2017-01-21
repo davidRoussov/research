@@ -102,6 +102,61 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 		});
 	}
 
+	$scope.submitChangeTopicParent = function(topicID) {
+
+		$("input[name='radgroup']").each(function() {
+			var checked = $(this).is(":checked");
+			if (checked) {
+				var newParentID = $(this).val();
+				for (var i = 0; i < $rootScope.topics.length; i++) {
+					if ($rootScope.topics[i]._id == topicID) {
+
+						var newTopicHeight;
+						if (newParentID == "null") {
+							$rootScope.topics[i].parentID = null;
+							newTopicHeight = 1;
+						} else {
+							$rootScope.topics[i].parentID = newParentID;
+
+							for (var j = 0; j < $rootScope.topics.length; j++) {
+								if ($rootScope.topics[j]._id == newParentID) {
+									newTopicHeight = $rootScope.topics[j].height + 1;
+								}
+							}
+						}
+
+						temptopics = $rootScope.topics.slice();
+						recurseUpdateHeight(topicID, newTopicHeight);
+						$rootScope.topics = temptopics;
+
+						var userID = localStorage.getItem("userID");
+						$http.post("/api/topics", {action: "updateTopics", userID: userID, topics: $rootScope.topics}).then(function(response) {
+							$rootScope.$emit("refreshTopics", {});
+						});
+
+						hideModal();
+
+						return;
+					}
+				}
+			}
+		});	
+
+	}
+
+	function recurseUpdateHeight(topicID, newHeight) {
+
+		for (var i = 0; i < $rootScope.topics.length; i++) {
+			if ($rootScope.topics[i]._id == topicID) {
+				temptopics[i].height = newHeight;
+			}
+			else if ($rootScope.topics[i].parentID == topicID) {
+				recurseUpdateHeight($rootScope.topics[i]._id, newHeight + 1);
+			}
+		}
+
+	}
+
 	$scope.deleteTopic = function(topic) {
 
 		hideModal();

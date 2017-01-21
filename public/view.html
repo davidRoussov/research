@@ -77,10 +77,53 @@
 
 			<!-- end delete research button -->
 
+			<!-- change the "Link" column to the actual url which can then be edited-->
+
 			<button type="button" class="btn btn-default topic-menu-button" ng-click="showResearchLinks = !showResearchLinks">
 			  <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
 			  Edit links
 			</button>
+
+			<!-- end edit links -->
+
+			<!-- For changing the parent topics of each topic -->
+
+			<button type="button" class="btn btn-default topic-menu-button" data-toggle="modal" data-target="#modalChangeParent{{$index}}">
+			  <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+			  Change parent topic
+			</button>
+
+			<div class="modal fade" id="modalChangeParent{{$index}}" role="dialog">
+			    <div class="modal-dialog">
+			    
+			      <!-- Modal content-->
+			      <div class="modal-content">
+			        <div class="modal-header">
+			          <button type="button" class="close" data-dismiss="modal">&times;</button>
+			          <h4 class="modal-title">Change topic parent</h4>
+			        </div>
+			        <div class="modal-body">
+
+			        <form>
+
+			        	<label class="radio changeTopicParentRadio"><input type="radio" name="radgroup" value="null">Make topic a top level topic</label>
+
+			        	<hr>
+
+			        	<label ng-repeat="modalTopic in topics" ng-if="modalTopic._id !== topic._id" class="radio changeTopicParentRadio"><input type="radio" name="radgroup" value={{modalTopic._id}}>{{modalTopic.topicName}}</label>
+			        </form>
+
+			        </div>
+			        <div class="modal-footer">
+			          <button type="button" class="btn btn-primary" ng-click="submitChangeTopicParent(topic._id)">Submit</button>
+			          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        </div>
+			      </div>
+			      
+			    </div>
+			 </div>	
+
+			<!-- end change parent topic-->
 
 		</div>
 

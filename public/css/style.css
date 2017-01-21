@@ -178,6 +178,10 @@ a:focus {
     background-color: transparent !important;   
 }
 
+.changeTopicParentRadio {
+    padding-left: 20px;
+}
+
 /******************************/
 /* research notes content area */
 /******************************/
