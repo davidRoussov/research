@@ -110,7 +110,6 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 		temptopics = $rootScope.topics.slice();
 		recurseDeleteTopic(temptopics, topicID);
 
-
 		$rootScope.topics = [];
 		for (var i = 0; i < temptopics.length; i++) {
 			if (temptopics[i])
@@ -133,11 +132,8 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 				recurseDeleteTopic(temptopics, $rootScope.topics[i]._id);
 			}
 		}
-		
-
 
 	}
-
 
 });
 

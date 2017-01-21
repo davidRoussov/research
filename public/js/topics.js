@@ -64,6 +64,7 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 
 	$scope.expandOrCollapseTopic = function(event) {
+		console.log($rootScope.topics);
 
 		var button = $(event.target);
 		var topicID = button.parent().parent().attr("id");
@@ -224,14 +225,16 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 		for (var i = 0; i < sortedTopics.length; i++) {
 			if (sortedTopics[i].parentID === topicID) {
 				sortedTopics[i].visible = false;
+				sortedTopics[i].viewModeVisible = false;
 
 
-				// finding add new topic buttons and making them invisible if topic matches button id
-				for (var j = 0; j < sortedTopics.length; j++) {
-					if (sortedTopics[j].addButtonParentID === topicID) {
-						sortedTopics[j].visible = false;
-					}
-				}
+				// // finding add new topic buttons and making them invisible if topic matches button id
+				// for (var j = 0; j < sortedTopics.length; j++) {
+				// 	if (sortedTopics[j].addButtonParentID === topicID) {
+				// 		console.log("add button parent id");
+				// 		sortedTopics[j].visible = false;
+				// 	}
+				// }
 
 
 			}
