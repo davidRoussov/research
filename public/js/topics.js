@@ -99,7 +99,7 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 		// FOR VIEW MODE, IF TOPIC IS CHECKED, ROOTSCOPE PROPERTY IS CHANGED TO VISIBLE/NOT VISIBLE
 		var checkbox = $(event.target);
-		var topicID = checkbox.parent().parent().attr("id");
+		var topicID = checkbox.parent().parent().parent().attr("id");
 		var checked = checkbox.is(":checked");
 
 		for (var i = 0; i < $rootScope.topics.length; i++) {

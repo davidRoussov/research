@@ -69,10 +69,11 @@ a:focus {
     width: 100%;
     min-height: 51px;
     line-height: 51px;
-    color: white;
+    color: white !important;
     border-bottom: 1px solid rgba(0,0,0,.15);
     background-color: rgba(0,0,0,.12);
     font-size: 24px;
+    text-decoration: none !important;
 }
 .rs-sidebar-brand:hover {
     text-decoration: none;
@@ -92,13 +93,129 @@ a:focus {
 }
 
 
-.topicCheckboxContainer {
+
+
+
+.checkbox {
+    /*display: inline-block !important;*/
     display: table-cell;
     padding: 10px;
+    padding-left: 0px;
+
 }
-.js-topic-checkbox {
-    -webkit-transform: scale(1.3);
+
+.checkbox label:after, 
+.radio label:after {
+    content: '';
+    display: table;
+    clear: both;
 }
+
+.checkbox .cr,
+.radio .cr {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #a9a9a9;
+    border-radius: .25em;
+    width: 1.3em;
+    height: 1.3em;
+    float: left;
+    margin-right: .5em;
+}
+
+.radio .cr {
+    border-radius: 50%;
+}
+
+.checkbox .cr .cr-icon, .cr .cr-icon {
+    position: absolute;
+    font-size: .8em;
+    line-height: 0;
+    top: 50%;
+    left: 20%;
+}
+
+.radio .cr .cr-icon {
+    margin-left: 0.04em;
+}
+
+.checkbox label input[type="checkbox"] {
+    display: none;
+}
+
+.checkbox label input[type="checkbox"] + .cr > .cr-icon,
+.radio label input[type="radio"] + .cr > .cr-icon {
+    transform: scale(3) rotateZ(-20deg);
+    opacity: 0;
+    transition: all .3s ease-in;
+}
+
+.checkbox label input[type="checkbox"]:checked + .cr > .cr-icon,
+.radio label input[type="radio"]:checked + .cr > .cr-icon {
+    transform: scale(1) rotateZ(0deg);
+    opacity: 1;
+}
+
+.checkbox label input[type="checkbox"]:disabled + .cr,
+.radio label input[type="radio"]:disabled + .cr {
+    opacity: .5;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 .topicButtonContainer {
@@ -200,10 +317,10 @@ a:focus {
 .recommendations-container {
     overflow: hidden;
     padding: 20px;
-    height: 100vh;
+    height: 100vh !important;
 }
 
 .recommendations-textarea {
     width: 100%;
-    height: 100%;
+    height: 90% !important;
 }

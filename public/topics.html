@@ -1,13 +1,20 @@
 <div>
 
-    <a href="/" class="rs-sidebar-brand">Research <em>(testing)</em></a>
+    <a href="/" class="rs-sidebar-brand">Research</a>
 
     <div ui-sortable="sortableOptions" >
       <div ng-repeat="topic in topics" ng-if="topic.visible" id="{{topic._id}}" class="oneTopic topic-level-{{topic.height % 5}}" style="{{topic.style}}">
 
-    		<div class="topicCheckboxContainer">
+<!--     		<div class="topicCheckboxContainer">
     		    <input type="checkbox" class="js-topic-checkbox" ng-click="topicChecked($event)">
-    		</div>
+    		</div> -->
+
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="" ng-click="topicChecked($event)">
+            <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+          </label>
+        </div>
 
     		<div class="topicButtonContainer">
     		    <button type="button" class="js-topic-button" ng-click="expandOrCollapseTopic($event)" ng-bind="topic.topicName"></button>
