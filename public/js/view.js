@@ -5,6 +5,12 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 	
 
 
+
+	var temptopics;
+
+
+
+
 	$scope.editTopicTitle = function(event) {
 		var input = $(event.target);
 		var newTitle = input.val();
@@ -23,8 +29,7 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 		var userID = localStorage.getItem("userID");
 
 		$http.post('/api/topics', {action: "createNewSubtopic", userID: userID, parentID: parentID, topicName: newTopic}).then(function(response) {
-	    	$('.modal').modal('hide');
-	    	$('.modal-backdrop').remove();
+			hideModal();
 
 
 	    	// this code determines if the subtopics are already visible and if they are the new subtopic
@@ -53,20 +58,6 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 			$(".btn-danger").prop("disabled", true);
 		}
 
-	}
-
-	$scope.deleteTopic = function(topic) {
-
-		$('.modal').modal('hide');
-		$('.modal-backdrop').remove();
-
-		var topicID = topic._id;
-		var temptopics = $rootScope.topics.slice();
-		deleteTopic(temptopics, topicID);
-
-		var userID = localStorage.getItem("userID");
-
-		$http.post("/api/topics", {action: "updateTopics", userID: userID, topics: $rootScope.topics});
 	}
 
 	$scope.editResearch = function(event) {
@@ -111,23 +102,39 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 		});
 	}
 
+	$scope.deleteTopic = function(topic) {
 
-	function deleteTopic(temptopics, topicID) {
+		hideModal();
+
+		var topicID = topic._id;
+		temptopics = $rootScope.topics.slice();
+		recurseDeleteTopic(temptopics, topicID);
+
+
+		$rootScope.topics = [];
+		for (var i = 0; i < temptopics.length; i++) {
+			if (temptopics[i])
+				$rootScope.topics.push(temptopics[i]);
+		}
+
+
+		var userID = localStorage.getItem("userID");
+
+		$http.post("/api/topics", {action: "updateTopics", userID: userID, topics: $rootScope.topics});
+	}
+
+	function recurseDeleteTopic(temptopics, topicID) {
 
 		for (var i = 0; i < $rootScope.topics.length; i++) {
 			if ($rootScope.topics[i]._id == topicID) {
 				temptopics[i] = null;
 			}
 			else if ($rootScope.topics[i].parentID == topicID) {
-				deleteTopic(temptopics, $rootScope.topics[i]._id);
+				recurseDeleteTopic(temptopics, $rootScope.topics[i]._id);
 			}
 		}
 		
-		$rootScope.topics = [];
-		for (var i = 0; i < temptopics.length; i++) {
-			if (temptopics[i])
-				$rootScope.topics.push(temptopics[i]);
-		}
+
 
 	}
 

@@ -269,9 +269,16 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 		// removing topppest level topic from available choices
 		for (var i = 0; i < topics.length; i++) {
-			if (topics[i]._id === topLevelTopic._id) {
-				topics.splice(i, 1);
+			try {
+				if (topics[i]._id === topLevelTopic._id) {
+					topics.splice(i, 1);
+				}
+			} catch(err) {
+				console.log(topics);
+				console.log(sortedTopics);
+				return;
 			}
+
 		}
 
 
