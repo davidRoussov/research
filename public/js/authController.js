@@ -1,6 +1,7 @@
 
 app.controller("authController", function($scope, $http, $rootScope) {
 
+
 	// checking local storage for user id
 	var userID = localStorage.getItem("userID");
 	if (userID !== "null") {

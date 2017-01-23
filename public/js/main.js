@@ -1,27 +1,42 @@
-var app = angular.module('app', ['ngRoute', 'ui']);
+
+
+
 
 app.run( function($rootScope, $location) {
+
+  $rootScope.$emit("refreshTopics",{});
+
    $rootScope.$watch(function() { 
       return $location.path(); 
     },
     function(url){  
 
-      // switch(url) {
-      //   case "/":
-      //     console.log("add");
-      //     break;
-      //   case "/view":
-      //     console.log("view");
-      //     break;
-      //   case "/notes":
-      //     console.log("notes");
-      //     break;
-      //   case "/recommendations":
-      //     console.log("recommendations");
-      //     break;
-      //   default:
-      //     console.log("invalid url: " + url);
-      // }
+      $(".active").removeClass("active");
+
+      switch(url) {
+        case "/":
+
+          $("a[href='/']").parent().addClass("active"); // making view menu button highlighted
+
+          break;
+        case "/view":
+
+          $("a[href='/#!/view']").parent().addClass("active"); // making view menu button highlighted
+
+          break;
+        case "/notes":
+
+          $("a[href='/#!/notes']").parent().addClass("active"); // making notes menu button highlighted
+
+          break;
+        case "/recommendations":
+
+          $("a[href='/#!/recommendations']").parent().addClass("active"); // making recommendations menu button highlighted
+
+          break;
+        default:
+          console.log("invalid url: X" + url + "X");
+      }
 
 
 

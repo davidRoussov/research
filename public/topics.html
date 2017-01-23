@@ -2,7 +2,7 @@
 
     <a href="/" class="rs-sidebar-brand">Research</a>
 
-    <div ui-sortable="sortableOptions" >
+    <div  > <!-- ui-sortable="sortableOptions" -->
       <div ng-repeat="topic in topics" ng-if="topic.visible" id="{{topic._id}}" class="oneTopic topic-level-{{topic.height % 5}}" style="{{topic.style}}">
 
 <!--     		<div class="topicCheckboxContainer">
@@ -17,7 +17,7 @@
         </div>
 
     		<div class="topicButtonContainer">
-    		    <button type="button" class="js-topic-button" ng-click="expandOrCollapseTopic($event)" ng-bind="topic.topicName"></button>
+    		    <button type="button" class="topic-button" ng-click="expandOrCollapseTopic($event)" ng-bind="topic.topicName"></button>
     		</div>
 
       </div>

@@ -6,7 +6,6 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "angular-dialog-service": "^5.3.0",
     "angular-ui-sortable": "^0.16.1",
     "body-parser": "~1.15.2",
     "cookie-parser": "~1.4.3",

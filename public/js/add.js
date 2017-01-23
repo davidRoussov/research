@@ -1,8 +1,7 @@
 
 app.controller("addResearchController", function($scope, $http, $timeout, $rootScope) {
 
-	$(".active").removeClass("active"); // removing top bar menu navigation highlighting
-	$("a[href='/']").parent().addClass("active"); // making add menu button highlighted
+	$("a[href='/']").parent().addClass("active"); // making view menu button highlighted
 
 	$scope.submitNewResearch = function(link, title, date, source, summary) {
 

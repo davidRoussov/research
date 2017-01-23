@@ -1,8 +1,11 @@
+var app = angular.module('app', ['ngRoute', 'ui']);
+
 
 app.controller('topicsController', function($scope, $http, $rootScope) {
 	var self = this;
 
 	var sortedTopics;
+
 
 
 
@@ -19,6 +22,7 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 	});
 
 	$rootScope.$on("refreshTopics", function(event, data) {
+		console.log("hello");
 		self.showTopics();
 	});
 
@@ -41,7 +45,7 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 		});
 
 	}
-	self.showTopics();
+	// self.showTopics();
 
 	function generateTopics(topics) {
 		sortTopics(topics);

@@ -1,6 +1,5 @@
 app.controller("researchRecommendationsController", function($scope, $http, $rootScope) {
 
-	$(".active").removeClass("active"); // removing top bar menu navigation highlighting
 	$("a[href='/#!/recommendations']").parent().addClass("active"); // making recommendations menu button highlighted
 
 	var userID = localStorage.getItem("userID");
