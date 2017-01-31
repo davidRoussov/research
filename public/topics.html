@@ -44,10 +44,10 @@
               <h4 class="modal-title">Add a new top level topic</h4>
             </div>
             <div class="modal-body">
-              <input type="text" class="form-control" ng-model="newTopicName">
+              <input type="text" class="form-control" ng-model="newTopicName" ng-keypress="addTopLevelResearch($event, newTopicName)">
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" ng-click="addTopLevelResearch(newTopicName)">Submit</button>
+              <button type="button" class="btn btn-primary" ng-click="addTopLevelResearch($event,newTopicName)">Submit</button>
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
           </div>

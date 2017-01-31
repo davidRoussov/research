@@ -1,6 +1,8 @@
 .wrapper {
     width: 100%;
-    height: 100%;
+    min-height: 100%;
+    position: relative;
+    display: inline-block;
 }
 
 .navbar {
@@ -13,7 +15,10 @@
 }
 
 .nav-and-content-container {
-    overflow: hidden;
+    float: right;
+    width: 86%;
+    position: relative;
+
 }
 
 .container-fluid, .navbar-collapse {
@@ -81,10 +86,13 @@ a:focus {
 }
 
 .topicsSideBar {
-	width: 15%;
-    height: 100vh;
-    float: left;
     background-color: #5C6BC0;
+    width: 14%;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    position:absolute;
+    min-height: 100vh;
 }
 
 .oneTopic {
@@ -96,11 +104,13 @@ a:focus {
 
 
 
+
+
 .checkbox {
     display: table-cell;
     padding: 10px;
     padding-left: 0px;
-    border-right: 1px solid gray;
+    background-color: #808080   ;
 }
 
 .checkbox label:after, 
@@ -168,55 +178,6 @@ a:focus {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .topicButtonContainer {
     display: table-cell;
     width: 100%;
@@ -254,7 +215,6 @@ a:focus {
 /* Add research content area */
 /******************************/
 .addResearchContainer {
-    overflow: hidden;
     padding: 20px;
 }
 
@@ -263,8 +223,11 @@ a:focus {
 /* View research content area */
 /******************************/
 .viewResearchContainer {
-    overflow: hidden;
     padding-left: 20px;
+
+}
+
+.viewModeResearchArea {
 }
 
 .single-topic-view {

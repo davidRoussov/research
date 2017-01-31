@@ -1,5 +1,54 @@
 <div class="viewResearchContainer">
 
+
+	<!-- this is where searched terms will be used to show content-->
+	<div class="search-research-container">
+
+		<h1>Search results:</h1>
+
+		<table class="table table-bordered">
+
+			<thead>
+
+				<tr>
+
+					<th>Link</th>
+					<th>Title</th>
+					<th>Date</th>
+					<th>Source</th>
+					<th>Summary</th>
+
+				</tr>
+
+			</thead>
+
+			<tbody>
+
+				<tr ng-repeat="research in researches">
+
+					<td>{{research.link}}</td>
+					<td>{{research.title}}</td>
+					<td>{{research.date}}</td>
+					<td>{{research.source}}</td>
+					<td>{{research.summary}}</td>
+
+				</tr>
+
+			</tbody>
+
+		</table>
+
+	</div>
+
+
+
+
+
+
+
+
+
+
 	<div class="single-topic-view" ng-repeat="topic in topics | orderBy : 'viewModeOrderRank'" id={{topic._id}} ng-if="topic.viewModeVisible">
 
 		<input type="text" class="view-topic-title" ng-model="topic.topicName" ng-blur="editTopicTitle($event)">
@@ -168,8 +217,6 @@
 
 
 		</div>
-
-
 
 
 

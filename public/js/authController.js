@@ -1,10 +1,9 @@
 
 app.controller("authController", function($scope, $http, $rootScope) {
 
-
 	// checking local storage for user id
 	var userID = localStorage.getItem("userID");
-	if (userID !== "null") {
+	if (userID != null) {
 	  $scope.authenticated = true;
 	  $scope.username = localStorage.getItem("username");
 	}
@@ -92,11 +91,39 @@ app.controller("authController", function($scope, $http, $rootScope) {
 
 		$scope.authenticated = false;
 
-		localStorage.setItem("userID", null);
-		localStorage.setItem("username", null);
+		localStorage.removeItem("userID");
+		localStorage.removeItem("username");
 
 		$rootScope.topics = [];
 	}
+
+	$scope.searchResearch = function(event, request) {
+
+		// this is for detecting user pressing enter to submit
+		if (event.type == "keypress") {
+			var keyCode = event.keyCode;	
+			if (keyCode != 13) {
+				return;
+			}
+		}
+
+		var userID = localStorage.getItem("userID");
+
+		var json = {
+			action: "searchResearch",
+			request: request,
+			userID
+		}
+
+		$http.post('/api/research', json).then(function(response) {
+			console.log("hello");
+
+
+		});
+
+	}
+
+
 
 
 });

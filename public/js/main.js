@@ -4,8 +4,6 @@
 
 app.run( function($rootScope, $location) {
 
-  $rootScope.$emit("refreshTopics",{});
-
    $rootScope.$watch(function() { 
       return $location.path(); 
     },
@@ -18,20 +16,28 @@ app.run( function($rootScope, $location) {
 
           $("a[href='/']").parent().addClass("active"); // making view menu button highlighted
 
+          $rootScope.mode = "add";
+
           break;
         case "/view":
 
           $("a[href='/#!/view']").parent().addClass("active"); // making view menu button highlighted
+
+          $rootScope.mode = "view";
 
           break;
         case "/notes":
 
           $("a[href='/#!/notes']").parent().addClass("active"); // making notes menu button highlighted
 
+          $rootScope.mode = "notes";
+
           break;
         case "/recommendations":
 
           $("a[href='/#!/recommendations']").parent().addClass("active"); // making recommendations menu button highlighted
+
+          $rootScope.mode = "recommendations";
 
           break;
         default:
@@ -84,6 +90,13 @@ app.directive("contenteditable", function() {
   };
 });
 
+
+
+
+
+
+
+
 app.directive('pressEnter', function() {
   return function($scope, element, attrs) {
     element.bind("keydown keypress", function(event) {
@@ -97,6 +110,15 @@ app.directive('pressEnter', function() {
     });
   };
 });
+
+
+
+
+
+
+
+
+
 
 function hideModal() {
   $('.modal').modal('hide');

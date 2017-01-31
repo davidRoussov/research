@@ -112,6 +112,12 @@ router.route("/research")
 			getResearch(topicID, userID, function(research) {
 				response.send({research: research});
 			});
+		} else if (data.action === "searchResearch") {
+			var request = data.request;
+			
+			findResearch(userID, request, function() {
+				response.json({success: true});
+			});
 		} else {
 			console.log("action: " + data.action);
 			return response.json({success: false});
@@ -184,6 +190,23 @@ router.route("/recommendations")
 	})
 
 module.exports = router;
+
+function findResearch(userID, request) {
+
+	Research.findOne({userID: userID}, function(err, data) {
+
+		var research = data.research;
+
+		for (var i = 0; i < research.length; i++) {
+
+			
+			
+		}
+
+
+
+	});
+}
 
 function updateTopicNotes(topicID, newText, userID, callback) {
 

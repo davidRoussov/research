@@ -1,4 +1,3 @@
-var app = angular.module('app', ['ngRoute', 'ui']);
 
 
 app.controller('topicsController', function($scope, $http, $rootScope) {
@@ -22,7 +21,6 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 	});
 
 	$rootScope.$on("refreshTopics", function(event, data) {
-		console.log("hello");
 		self.showTopics();
 	});
 
@@ -45,7 +43,7 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 		});
 
 	}
-	// self.showTopics();
+	self.showTopics();
 
 	function generateTopics(topics) {
 		sortTopics(topics);
@@ -58,7 +56,7 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 
 
-	////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////
 
 
 
@@ -87,7 +85,16 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 	}
 
 
-	$scope.addTopLevelResearch = function(topicName) {
+	$scope.addTopLevelResearch = function(event, topicName) {
+
+		// this is for detecting user pressing enter to submit
+		if (event.type == "keypress") {
+			var keyCode = event.keyCode;	
+			if (keyCode != 13) {
+				return;
+			}
+		}
+
 
 		var userID = localStorage.getItem("userID");
 
@@ -98,6 +105,7 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 	    });
 	    
 	}
+
 
 	$scope.topicChecked = function(event) {
 
