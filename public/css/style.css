@@ -217,7 +217,12 @@ a:focus {
 .addResearchContainer {
     padding: 20px;
 }
-
+/******************************/
+/* Search research content area */
+/******************************/
+.search-research-container {
+    padding-right: 5px;
+}
 
 /******************************/
 /* View research content area */

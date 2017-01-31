@@ -75,9 +75,10 @@
 
       <form class="navbar-form navbar-left" ng-if="mode == 'view'">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" ng-model="searchRequest" ng-keypress="searchResearch($event, searchRequest)">
+          <input type="text" class="form-control userSearchesResearchInput" placeholder="Search" ng-model="searchRequest" ng-keypress="searchResearch($event, searchRequest)">
         </div>
-        <button type="submit" class="btn btn-default" ng-click="searchResearch($event, searchRequest)">Submit</button>
+        <button type="submit" class="btn btn-default" ng-if="!showSearchResults" ng-click="searchResearch($event, searchRequest)">Submit</button>
+        <button type="button" class="btn btn-success" ng-if="showSearchResults" ng-click="searchResearch($event)">Clear</button>
       </form>
 
 

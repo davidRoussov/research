@@ -2,7 +2,7 @@
 
 
 	<!-- this is where searched terms will be used to show content-->
-	<div class="search-research-container">
+	<div class="search-research-container" ng-if="showSearchResults">
 
 		<h1>Search results:</h1>
 
@@ -26,7 +26,7 @@
 
 				<tr ng-repeat="research in researches">
 
-					<td>{{research.link}}</td>
+					<td><a href={{research.link}} target="_blank">Link</a></td>
 					<td>{{research.title}}</td>
 					<td>{{research.date}}</td>
 					<td>{{research.source}}</td>
