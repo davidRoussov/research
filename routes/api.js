@@ -115,8 +115,8 @@ router.route("/research")
 		} else if (data.action === "searchResearch") {
 			var request = data.request;
 			
-			findResearch(userID, request, function() {
-				response.json({success: true});
+			findResearch(userID, request, function(matches) {
+				response.json({matches: matches});
 			});
 		} else {
 			console.log("action: " + data.action);
@@ -154,7 +154,6 @@ router.route("/notes")
 router.route("/recommendations")
 
 	.post(function(request, response) {
-		console.log("asged");
 
 		var data = request.body;
 		var userID = data.userID;
@@ -163,7 +162,6 @@ router.route("/recommendations")
 			var newContent = data.newContent;
 
 			var newDoc = {recommendations: newContent};
-			console.log(newContent);
 
 			Research.findOneAndUpdate({userID: userID}, newDoc, function(err, doc) {
 				if (err) console.log(err);
@@ -191,20 +189,33 @@ router.route("/recommendations")
 
 module.exports = router;
 
-function findResearch(userID, request) {
+function findResearch(userID, request, callback) {
 
 	Research.findOne({userID: userID}, function(err, data) {
 
 		var research = data.research;
 
+		var matches = [];
 		for (var i = 0; i < research.length; i++) {
 
-			
+			var link = research[i].link;
+			var title = research[i].title;
+			var date = research[i].date;
+			var source = research[i].source;
+			var summary = research[i].summary;
+
+			if    (link.indexOf(request) > - 1
+				|| title.indexOf(request) > -1
+				|| date.indexOf(request) > - 1
+				|| source.indexOf(request) > -1
+				|| summary.indexOf(request) > -1) {
+
+				matches.push(research[i]);
+			}
 			
 		}
 
-
-
+		callback(matches);
 	});
 }
 

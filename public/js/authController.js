@@ -99,6 +99,8 @@ app.controller("authController", function($scope, $http, $rootScope) {
 
 	$scope.searchResearch = function(event, request) {
 
+		console.log(event);
+
 		// this is for detecting user pressing enter to submit
 		if (event.type == "keypress") {
 			var keyCode = event.keyCode;	
@@ -116,9 +118,7 @@ app.controller("authController", function($scope, $http, $rootScope) {
 		}
 
 		$http.post('/api/research', json).then(function(response) {
-			console.log("hello");
-
-
+			$rootScope.researches = response.data.matches;
 		});
 
 	}
