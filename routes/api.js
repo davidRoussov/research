@@ -88,10 +88,9 @@ router.route("/research")
 		var userID = data.userID;
 
 		if (data.action === "insertNewResearch") {
-			insertNewResearch(data.document, userID);
-
-			return response.json({success: true});
-
+			insertNewResearch(data.document, userID, function(research) {
+				response.json({research: research});
+			});
 		} else if (data.action === "updateResearch") {
 			var researchID = data.researchID;
 			var contents = data.contents;
@@ -337,7 +336,7 @@ function getResearch(topicID, userID, callback) {
 	});
 }
 
-function insertNewResearch(document, userID) {
+function insertNewResearch(document, userID, callback) {
 
 	Research.findOne({userID: userID}, function(err, data) {
 
@@ -349,6 +348,8 @@ function insertNewResearch(document, userID) {
 
 		Research.findOneAndUpdate({userID: userID}, newDoc, function(err, doc) {
 			if (err) console.log(err);
+
+			callback(document);
 		});
 
 	});

@@ -27,7 +27,9 @@ app.controller("addResearchController", function($scope, $http, $timeout, $rootS
 		}
 
 		// replace newlines /n with html line breaks <br>
-		summary = summary.replace(/\r?\n/g, '<br />');
+		try {
+			summary = summary.replace(/\r?\n/g, '<br />');
+		} catch (err) {};
 
 		var userID = localStorage.getItem("userID");
 		if (!userID) return;
@@ -51,6 +53,21 @@ app.controller("addResearchController", function($scope, $http, $timeout, $rootS
 		$http.post('/api/research', json).then(function(response) {
 
 			$scope.showSuccessAlert = true;
+
+			// refreshing client list of research currently being displayed
+			var doc = response.data.research;
+			for (let i = 0; i < $rootScope.topics.length; i++) {
+				for (let j = 0; j < topicIDs.length; j++) {
+					if ($rootScope.topics[i]._id == topicIDs[j]) {
+						if ($rootScope.topics[i].researches) {
+							$rootScope.topics[i].researches.push(doc);
+						} else {
+							$rootScope.topics[i].researches = [doc];
+						}
+					}
+				}
+			}
+
 
 
 		});
