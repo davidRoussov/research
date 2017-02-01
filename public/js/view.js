@@ -92,8 +92,34 @@ app.controller("viewResearchController", function($scope, $rootScope, $http) {
 
 		var userID = localStorage.getItem("userID");
 
-		$http.post("/api/research", {action: "deleteResearch", userID: userID, researchID: researchID, topicID: topicID}).then(function(response) {
-			console.log(response.data);
+		var json = {
+			action: "deleteResearch", 
+			userID: userID, 
+			researchID: researchID, 
+			topicID: topicID
+		};
+
+		$http.post("/api/research", json).then(function(response) {
+			
+
+			// deleting the research in the client
+			for (let i = 0; i < $rootScope.topics.length; i++) {
+
+				if ($rootScope.topics[i]._id == topicID) {
+
+					for (let j = 0; j < $rootScope.topics[i].researches.length; j++) {
+						if ($rootScope.topics[i].researches[j]._id == researchID) {
+							$rootScope.topics[i].researches.splice(j,1);
+						}
+					}
+
+				}
+
+			}
+
+
+
+
 		});
 	}
 
