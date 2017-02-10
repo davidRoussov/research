@@ -2,6 +2,8 @@ app.controller("researchNotesController", function($scope, $http, $timeout, $roo
 
 	$("a[href='/#!/notes']").parent().addClass("active"); // making notes menu button highlighted
 
+
+
 	$scope.updateTopicNotes = function(event, topic) {
 		var textarea = $(event.target);
 		var newText = textarea.val();
@@ -10,15 +12,18 @@ app.controller("researchNotesController", function($scope, $http, $timeout, $roo
 		var userID = localStorage.getItem("userID");
 
 		$http.post("/api/notes", {action: "updateTopicNotes", userID: userID, topicID: topicID, newText: newText}).then(function(response) {
-			console.log(response.data);
+			$(".view-notes-textarea").css("color", "black");
 		});
 	}
 
-	$scope.autoExpand = function(event) {
-		autoExpand();
+	$scope.keypress = function(event) {
+
+		var textarea = event.target;
+		textarea.style.height = "1px";
+		textarea.style.height = (25 + textarea.scrollHeight) + "px";
+
+		$(event.target).css("color", "red");
 	}
 
-	function autoExpand() {
-		$(".view-notes-textarea").height($(".view-notes-textarea")[0].scrollHeight - 10);
-	}
+
 });
