@@ -65,6 +65,8 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 
 
+
+
 	$scope.expandOrCollapseTopic = function(event) {
 
 		var button = $(event.target);
@@ -83,6 +85,35 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 		$rootScope.topics = sortedTopics;
 	}
+	function recurseHideShow(topicID) {
+
+		for (var i = 0; i < sortedTopics.length; i++) {
+			if (sortedTopics[i].parentID === topicID) {
+				sortedTopics[i].visible = false;
+				sortedTopics[i].viewModeVisible = false;
+			}
+		}
+
+		var childrenIDs = [];
+		for (var i = 0; i < sortedTopics.length; i++) {
+			if (sortedTopics[i].parentID === topicID) {
+				childrenIDs.push(sortedTopics[i]._id);
+			}
+		}
+
+		if (childrenIDs.length == 0) {
+			return;
+		} else {
+			for (var i = 0; i < childrenIDs.length; i++) {
+				recurseHideShow(childrenIDs[i]);
+			}
+		}
+	}
+
+
+
+
+
 
 
 	$scope.addTopLevelResearch = function(event, topicName) {
@@ -113,6 +144,7 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 		var checkbox = $(event.target);
 		var topicID = checkbox.parent().parent().parent().attr("id");
 		var checked = checkbox.is(":checked");
+
 
 		for (var i = 0; i < $rootScope.topics.length; i++) {
 			if ($rootScope.topics[i]._id == topicID) {
@@ -164,25 +196,6 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 
 	}
 
-	$scope.sortableOptions = {
-		stop: function(e, ui) {
-			
-			var element = ui.item.get(0);
-			var before = ui.item.prev().get(0);
-			var after = ui.item.next().get(0);
-
-			if (!before) {
-
-			} else if (!after) {
-
-			} else if (before && after) {
-
-			}
-
-			
-
-		}
-	}
 
 	// each topic has property viewModeOrderRank which determines the order topics appear
 	// when in view mode; the max order rank is found and when checkbox is clicked, that topic's
@@ -201,6 +214,26 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 	}
 
 
+
+	function initializeTopicVisibility() {
+		for (var i = 0; i < sortedTopics.length; i++) {
+			if (sortedTopics[i].parentID === null || sortedTopics[i].visible) {
+				sortedTopics[i].visible = true;
+			} else {
+				sortedTopics[i].visible = false;
+			}
+		}
+	}
+
+
+
+
+
+
+
+
+
+
 	function sortTopics(topics) {
 		sortedTopics = [];
 
@@ -216,13 +249,7 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 			}
 
 			//sorting top level topics
-			topLevelTopics = topLevelTopics.sort(function(a,b) {
-				if (a.rank < b.rank)
-					return -1;
-				if (a.rank > b.rank)
-					return 1;
-				return 0;
-			});
+			topLevelTopics = topLevelTopics.sort(compare);
 
 			// the top level topic of lowest rank
 			var topLevelTopic = topLevelTopics[0];
@@ -231,51 +258,6 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 		}
 	}
 
-	function recurseHideShow(topicID) {
-
-		for (var i = 0; i < sortedTopics.length; i++) {
-			if (sortedTopics[i].parentID === topicID) {
-				sortedTopics[i].visible = false;
-				sortedTopics[i].viewModeVisible = false;
-
-
-				// // finding add new topic buttons and making them invisible if topic matches button id
-				// for (var j = 0; j < sortedTopics.length; j++) {
-				// 	if (sortedTopics[j].addButtonParentID === topicID) {
-				// 		console.log("add button parent id");
-				// 		sortedTopics[j].visible = false;
-				// 	}
-				// }
-
-
-			}
-		}
-
-		var childrenIDs = [];
-		for (var i = 0; i < sortedTopics.length; i++) {
-			if (sortedTopics[i].parentID === topicID) {
-				childrenIDs.push(sortedTopics[i]._id);
-			}
-		}
-
-		if (childrenIDs.length == 0) {
-			return;
-		} else {
-			for (var i = 0; i < childrenIDs.length; i++) {
-				recurseHideShow(childrenIDs[i]);
-			}
-		}
-	}
-
-	function initializeTopicVisibility() {
-		for (var i = 0; i < sortedTopics.length; i++) {
-			if (sortedTopics[i].parentID === null || sortedTopics[i].visible) {
-				sortedTopics[i].visible = true;
-			} else {
-				sortedTopics[i].visible = false;
-			}
-		}
-	}
 
 	function recurseExtractChildren(topics, topLevelTopic, sortedTopics) {
 
@@ -310,14 +292,38 @@ app.controller('topicsController', function($scope, $http, $rootScope) {
 		}
 	}
 
-	// for sorting topics by their rank
+
+
+
+
+
+
+
+
+
+
+	// for sorting topics alphabetically
 	function compare(a, b) {
-		if (a.rank < b.rank)
+		if (a.topicName.toUpperCase() < b.topicName.toUpperCase())
 			return -1;
-		if (a.rank > b.rank)
+		if (a.topicName.toUpperCase() > b.topicName.toUpperCase())
 			return 1;
 		return 0;
 	}
+
+
+
+
+	// // for sorting topics by their rank
+	// function compare(a, b) {
+	// 	if (a.rank < b.rank)
+	// 		return -1;
+	// 	if (a.rank > b.rank)
+	// 		return 1;
+	// 	return 0;
+	// }
+
+
 
 
 });

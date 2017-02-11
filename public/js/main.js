@@ -39,7 +39,7 @@ app.run( function($rootScope, $location) {
 
           break;
         default:
-          console.log("invalid url: X" + url + "X");
+          return;
       }
 
 
@@ -122,15 +122,3 @@ function hideModal() {
   $('.modal').modal('hide');
   $('.modal-backdrop').remove();
 }
-
-app.factory('rsServices', function() {
-  return {
-    changingTextareaContent: function(event) {
-      var textarea = event.target;
-      textarea.style.height = "1px";
-      textarea.style.height = (25 + textarea.scrollHeight) + "px";
-
-      $(event.target).css("color", "red");
-    }
-  }
-});

@@ -1,7 +1,6 @@
-app.controller("researchNotesController", function($scope, $http, $timeout, $rootScope, rsServices) {
+app.controller("researchNotesController", function($scope, $http, $timeout, $rootScope) {
 
 	$("a[href='/#!/notes']").parent().addClass("active"); // making notes menu button highlighted
-
 
 
 	$scope.updateTopicNotes = function(event, topic) {
@@ -16,7 +15,16 @@ app.controller("researchNotesController", function($scope, $http, $timeout, $roo
 		});
 	}
 
-	$scope.changingTextareaContent = function(event) {rsServices.changingTextareaContent(event)};
+	$scope.changingTextareaContent = function(event) {
+		var textarea = event.target;
+		textarea.style.height = "1px";
+		textarea.style.height = (25 + textarea.scrollHeight) + "px";
 
+		$(event.target).css("color", "red");
+	};
+
+	$scope.$on("topicCheckedNotes", function(event, args) {
+		console.log(args);
+	});
 
 });

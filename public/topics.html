@@ -2,12 +2,9 @@
 
     <a href="/" class="rs-sidebar-brand">Research</a>
 
-    <div  > <!-- ui-sortable="sortableOptions" -->
+    <div>
       <div ng-repeat="topic in topics" ng-if="topic.visible" id="{{topic._id}}" class="oneTopic topic-level-{{topic.height % 5}}" style="{{topic.style}}">
 
-<!--     		<div class="topicCheckboxContainer">
-    		    <input type="checkbox" class="js-topic-checkbox" ng-click="topicChecked($event)">
-    		</div> -->
 
         <div class="checkbox">
           <label>
@@ -31,7 +28,6 @@
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
       </button>
 
-    </div>
 
       <!-- Modal for when user clicks plus button at the end of topics list-->
       <div class="modal fade" id="modalAddTopLevelTopic" role="dialog">
@@ -56,5 +52,9 @@
       </div>
 
       <!-- END MODAL -->
+
+    </div>
+
+
 
 </div>
