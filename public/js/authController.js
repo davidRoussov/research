@@ -98,7 +98,6 @@ app.controller("authController", function($scope, $http, $rootScope) {
 	}
 
 	$scope.searchResearch = function(event, request) {
-		console.log(event);
 
 
 		// this is for detecting user pressing enter to submit
@@ -109,7 +108,6 @@ app.controller("authController", function($scope, $http, $rootScope) {
 			}
 		}
 
-		console.log("hi");
 		// alternating a submit and clear button by changing scope variable
 		// as well as whether search results div is shown
 		// var button = $(event.currentTarget);
@@ -140,7 +138,7 @@ app.controller("authController", function($scope, $http, $rootScope) {
 		var json = {
 			action: "searchResearch",
 			request: request,
-			userID
+			userID: userID
 		}
 
 		$http.post('/api/research', json).then(function(response) {

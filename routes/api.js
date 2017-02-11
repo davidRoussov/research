@@ -203,11 +203,13 @@ function findResearch(userID, request, callback) {
 			var source = research[i].source;
 			var summary = research[i].summary;
 
-			if    (link.indexOf(request) > - 1
-				|| title.indexOf(request) > -1
-				|| date.indexOf(request) > - 1
-				|| source.indexOf(request) > -1
-				|| summary.indexOf(request) > -1) {
+			console.log(research[i]);
+
+			if    (link && link.indexOf(request) > - 1
+				|| title && title.indexOf(request) > -1
+				|| date && date.indexOf(request) > - 1
+				|| source && source.indexOf(request) > -1
+				|| summary && summary.indexOf(request) > -1) {
 
 				matches.push(research[i]);
 			}
