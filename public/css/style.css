@@ -286,8 +286,8 @@ a:focus {
     padding: 20px;
     height: 100vh !important;
 }
-
 .recommendations-textarea {
     width: 100%;
-    height: 90% !important;
+    height: 100% !important;
+    
 }

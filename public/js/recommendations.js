@@ -17,10 +17,14 @@ app.controller("researchRecommendationsController", function($scope, $http, $roo
 
 		if (userID) {
 			$http.post("/api/recommendations", {action: "updateRecommendations", userID: userID, newContent: newContent}).then(function(response) {
-				console.log(response.data);
+				$('.recommendations-textarea').css("color", "black");
 			});
 		}
 
 	}
+
+	$scope.changingTextareaContent = function(event) {
+		$(event.target).css("color", "red");
+	};
 
 });

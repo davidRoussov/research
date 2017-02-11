@@ -1,6 +1,4 @@
-
-
-
+var app = angular.module('app', ['ngRoute', 'ui']);
 
 app.run( function($rootScope, $location) {
 
@@ -124,3 +122,15 @@ function hideModal() {
   $('.modal').modal('hide');
   $('.modal-backdrop').remove();
 }
+
+app.factory('rsServices', function() {
+  return {
+    changingTextareaContent: function(event) {
+      var textarea = event.target;
+      textarea.style.height = "1px";
+      textarea.style.height = (25 + textarea.scrollHeight) + "px";
+
+      $(event.target).css("color", "red");
+    }
+  }
+});

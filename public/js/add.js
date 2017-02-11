@@ -1,7 +1,23 @@
 
 app.controller("addResearchController", function($scope, $http, $timeout, $rootScope) {
 
+
+
 	$("a[href='/']").parent().addClass("active"); // making view menu button highlighted
+
+	var currentInputs = JSON.parse(localStorage.getItem("rs-userWrites"));
+	if (currentInputs) {
+		$scope.userWritesLink = currentInputs.inputLink;
+		$scope.userWritesTitle = currentInputs.inputTitle;
+		$scope.userWritesDate = currentInputs.inputDate;
+		$scope.userWritesSource = currentInputs.inputSource;
+		$scope.userWritesSummary = currentInputs.inputSummary;
+	}
+
+
+
+
+
 
 	$scope.submitNewResearch = function(link, title, date, source, summary) {
 
@@ -74,16 +90,54 @@ app.controller("addResearchController", function($scope, $http, $timeout, $rootS
 	}
 
 	$scope.clearAddResearchForm = function() {
-		$("#inputLink").val('');
-		$("#inputTitle").val('');
-		$("#inputDate").val('');
-		$("#inputSource").val('');
-		$("#inputSummary").val('');
+		$scope.userWritesLink = "";
+		$scope.userWritesTitle = "";
+		$scope.userWritesDate = "";
+		$scope.userWritesSource = "";
+		$scope.userWritesSummary = "";
+
+		localStorage.removeItem("rs-userWrites");
 
 		$scope.showSuccessAlert = false;
 	}
 
 	$scope.closeSuccessAlert = function() { $scope.showSuccessAlert = false; }
 	$scope.closeFailureAlert = function() { $scope.showFailureAlert = false; }
+
+	$scope.userWrites = function(event) {
+		var id = $(event.target).attr("id");
+
+		var currentInputs = JSON.parse(localStorage.getItem("rs-userWrites"));
+		if (!currentInputs) {
+			currentInputs = {};
+		}
+
+		switch(id) {
+			case 'inputLink':
+				currentInputs.inputLink = $scope.userWritesLink;
+				break;
+			case 'inputTitle':
+				currentInputs.inputTitle = $scope.userWritesTitle;
+				break;
+			case 'inputDate':
+				currentInputs.inputDate = $scope.userWritesDate;
+				break;
+			case 'inputSource':
+				currentInputs.inputSource = $scope.userWritesSource;
+				break;
+			case 'inputSummary':
+				currentInputs.inputSummary = $scope.userWritesSummary;
+				break;
+			default:
+				console.log('error: invalid input field id: ' + id);
+				return;
+		}
+
+		localStorage.setItem("rs-userWrites", JSON.stringify(currentInputs));
+
+	}
+
+
+
 
 });

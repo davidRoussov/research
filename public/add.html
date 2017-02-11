@@ -5,28 +5,28 @@
 
 	  <div class="form-group">
 	    <label for="inputLink">Link</label>
-	    <input type="text" class="form-control" id="inputLink" placeholder="Enter link"  ng-model="userWritesLink">
+	    <input type="text" class="form-control" id="inputLink" placeholder="Enter link"  ng-model="userWritesLink" ng-keyup="userWrites($event)">
 	  </div>
 
 	  <div class="form-group">
 	    <label for="inputTitle">Title</label>
-	    <input type="text" class="form-control" id="inputTitle" placeholder="Enter title"  ng-model="userWritesTitle">
+	    <input type="text" class="form-control" id="inputTitle" placeholder="Enter title"  ng-model="userWritesTitle" ng-keyup="userWrites($event)">
 	  </div>
 
 	  <div class="form-group">
 	    <label for="inputDate">Date</label>
-	    <input type="text" class="form-control" id="inputDate" placeholder="Enter date"  ng-model="userWritesDate">
+	    <input type="text" class="form-control" id="inputDate" placeholder="Enter date"  ng-model="userWritesDate" ng-keyup="userWrites($event)">
 	  </div>
 
 	  <div class="form-group">
 	    <label for="inputSource">Source</label>
-	    <input type="text" class="form-control" id="inputSource" placeholder="Enter source" ng-model="userWritesSource">
+	    <input type="text" class="form-control" id="inputSource" placeholder="Enter source" ng-model="userWritesSource" ng-keyup="userWrites($event)">
 	  </div>
 
 
 	  <div class="form-group">
 	    <label for="inputSummary">Summary</label>
-	    <textarea class="form-control" id="inputSummary" rows="3" placeholder="Enter summary" ng-model="userWritesSummary"></textarea>
+	    <textarea class="form-control" id="inputSummary" rows="3" placeholder="Enter summary" ng-model="userWritesSummary" ng-keyup="userWrites($event)"></textarea>
 	  </div>
 
 	  <div class="alert alert-success" ng-if="showSuccessAlert">
